@@ -1,4 +1,6 @@
 {
-  "mysql_user": "root",
-  "mysql_password": "root"
+  "vt_allprivs": [""],
+  "vt_dba": [""],
+  "vt_app": [""],
+  "vt_repl": [""]
 }

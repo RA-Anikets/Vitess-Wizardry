@@ -27,6 +27,10 @@ services:
     container_name: vtctld
     depends_on:
       - etcd
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://vtctld:15000/debug/health"]
+      interval: 5s
+      retries: 10
     command: >
       sh -c '
         echo "Waiting for etcd to be healthy...";
@@ -43,9 +47,9 @@ services:
           --backup_storage_implementation ${VTCTLD_BACKUP_STORAGE_IMPL} \
           --file_backup_storage_root ${VTCTLD_FILE_BACKUP_ROOT} \
           --grpc_bind_address ${VTCTLD_GRPC_BIND_ADDR} \
-          --logtostderr=${VTCTLD_LOGTOSTDERR} \
           --port ${VTCTLD_HTTP_PORT} \
-          --grpc_port ${VTCTLD_GRPC_PORT}
+          --grpc_port ${VTCTLD_GRPC_PORT} \
+          --logtostderr=${VTCTLD_LOGTOSTDERR}
       '
     ports:
       - "15000:8080"
@@ -54,19 +58,69 @@ services:
       - ./vtctld-backups:/vt/vtdataroot/backups:rw
     restart: unless-stopped
 
+  vtctldclient:
+    image: vitess/lite:${VITESS_VERSION}
+    platform: linux/amd64
+    container_name: vtctldclient
+    depends_on:
+      - vtctld
+    command: >
+      sh -c '
+        /vt/bin/vtctldclient AddCellInfo --root ${VTCTLD_TOPO_GLOBAL_ROOT} --server vtctld:15999 --server-address etcd:2379 ${VTCTLD_CELL};
+      '
+
+  vttablet0:
+    image: vitess/lite:${VITESS_VERSION}
+    container_name: vttablet0
+    platform: linux/amd64
+    depends_on:
+      - shard0
+      - vtctldclient
+    command: >
+      sh -c '
+        until /vt/bin/vtctldclient GetCellInfo --server vtctld:15999 ${VTCTLD_CELL}; do
+          echo "Waiting for CellInfo..."
+          sleep 2
+        done
+        echo "FOUND CellInfo..."
+        exec /vt/bin/vttablet \
+          --topo_implementation ${VTCTLD_TOPO_IMPL} \
+          --topo_global_root ${VTCTLD_TOPO_GLOBAL_ROOT} \
+          --topo_global_server_address etcd:2379 \
+          --init_keyspace ${VTTABLET_KEYSPACE} \
+          --init_shard ${VTTABLET_SHARD} \
+          --tablet-path ${VTCTLD_CELL}-${VTTABLET_PATH} \
+          --tablet_hostname=vttablet0 \
+          --db_port 3306 \
+          --db_host shard0 \
+          --db-credentials-file=/vt/creds.json \
+          --init_tablet_type ${VTTABLET_TABLET_TYPE} \
+          --service_map ${VTTABLET_SERVICE_MAP}
+        '
+    ports:
+      - "15100:15100"
+      - "16000:16000"
+    healthcheck:
+      interval: 30s
+      retries: 15
+      test: ["CMD-SHELL", "curl -s --fail --show-error vttablet0:15100/debug/health"]
+      timeout: 10s
+    volumes:
+      - ./creds.json:/vt/creds.json
+
   vtgate:
     image: vitess/lite:${VITESS_VERSION}
     platform: linux/amd64
     container_name: vtgate
     depends_on:
       - vtctld
-      - vtctldclient
+      # - vtctldclient
     command: >
       sh -c '
         exec /vt/bin/vtgate \
           --topo-implementation=etcd2 \
           --topo-global-server-address=etcd:2379 \
-          --topo-global-root=/vitess/zone1 \
+          --topo-global-root=${VTCTLD_TOPO_GLOBAL_ROOT} \
           --cell=zone1 \
           --cells-to-watch=zone1 \
           --tablet_types_to_wait=REPLICA,PRIMARY \
@@ -95,45 +149,4 @@ services:
     volumes:
       - ./my.cnf:/etc/mysql/conf.d/my.cnf
 
-  vttablet0:
-    image: vitess/lite:${VITESS_VERSION}
-    container_name: vttablet0
-    platform: linux/amd64
-    depends_on:
-      - shard0
-      - etcd
-    command: >
-      /vt/bin/vttablet
-      --topo-implementation=etcd2
-      --topo-global-root=/vitess/zone1
-      --topo-global-server-address=etcd:2379
-      --init-keyspace=test_keyspace
-      --init-shard=0
-      --tablet-path=zone1-100
-      --db-port=3306
-      --db-host=shard0
-      --db-credentials-file=/creds.json
-      --init-tablet-type=replica
-    ports:
-      - "15100:15100"
-      - "16000:16000"
-    healthcheck:
-      interval: 30s
-      retries: 15
-      test: ["CMD-SHELL", "curl -s --fail --show-error vttablet0:15100/debug/health"]
-      timeout: 10s
-    volumes:
-      - ./creds.json:/creds.json
 
-  vtctldclient:
-    image: vitess/lite:${VITESS_VERSION}
-    platform: linux/amd64
-    container_name: vtctlclient
-    depends_on:
-      - vtctld
-      - etcd
-    command: >
-      sh -c '
-        /vt/bin/vtctldclient AddCellInfo --root /vitess/zone1 --server=vtctld:15000 zone1;
-        tail -f /dev/null
-      '
