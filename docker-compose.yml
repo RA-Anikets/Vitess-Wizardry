@@ -1,6 +1,6 @@
 services:
   etcd:
-    image: quay.io/coreos/etcd:v3.5.0
+    image: quay.io/coreos/etcd:${ETCD_VERSION}
     container_name: etcd # name of the container
     ports:
       - "2379:2379" # client url for other services to connect
@@ -21,41 +21,41 @@ services:
       timeout: 5s
       retries: 3
 
-
-  # this is the vitess control daemon
   vtctld:
-    image: vitess/lite:${VITESS_TAG:-latest}
+    image: vitess/lite:${VITESS_VERSION}
     platform: linux/amd64
     container_name: vtctld
     depends_on:
       - etcd
     command: >
       sh -c '
-        echo "Waiting for etcd...";
+        echo "Waiting for etcd to be healthy...";
         until wget -qO- http://etcd:2379/health | grep -q "true"; do
           sleep 2;
-          echo "Still waiting for etcd...";
         done;
-        echo "etcd is up, starting vtctld...";
+        echo "etcd is healthy, starting vtctld...";
         exec /vt/bin/vtctld \
-          --topo-implementation etcd2 \
-          --topo-global-server-address etcd:2379 \
-          --topo-global-root /vitess/zone1 \
-          --cell zone1 \
-          --service-map grpc-vtctl,grpc-vtctld \
-          --backup-storage-implementation file \
-          --file-backup-storage-root /vt/vtdataroot/backups \
-          --grpc-bind-address 0.0.0.0 \
-          --logtostderr=true \
-          --port 8080 \
-          --grpc-port 15999
+          --topo_implementation ${VTCTLD_TOPO_IMPL} \
+          --topo_global_server_address ${VTCTLD_TOPO_GLOBAL_ADDR} \
+          --topo_global_root ${VTCTLD_TOPO_GLOBAL_ROOT} \
+          --cell ${VTCTLD_CELL} \
+          --service_map ${VTCTLD_SERVICE_MAP} \
+          --backup_storage_implementation ${VTCTLD_BACKUP_STORAGE_IMPL} \
+          --file_backup_storage_root ${VTCTLD_FILE_BACKUP_ROOT} \
+          --grpc_bind_address ${VTCTLD_GRPC_BIND_ADDR} \
+          --logtostderr=${VTCTLD_LOGTOSTDERR} \
+          --port ${VTCTLD_HTTP_PORT} \
+          --grpc_port ${VTCTLD_GRPC_PORT}
       '
     ports:
       - "15000:8080"
       - "15999:15999"
+    volumes:
+      - ./vtctld-backups:/vt/vtdataroot/backups:rw
+    restart: unless-stopped
 
   vtgate:
-    image: vitess/lite:${VITESS_TAG:-latest}
+    image: vitess/lite:${VITESS_VERSION}
     platform: linux/amd64
     container_name: vtgate
     depends_on:
@@ -96,7 +96,7 @@ services:
       - ./my.cnf:/etc/mysql/conf.d/my.cnf
 
   vttablet0:
-    image: vitess/lite:${VITESS_TAG:-latest}
+    image: vitess/lite:${VITESS_VERSION}
     container_name: vttablet0
     platform: linux/amd64
     depends_on:
@@ -126,7 +126,7 @@ services:
       - ./creds.json:/creds.json
 
   vtctldclient:
-    image: vitess/lite:${VITESS_TAG:-latest}
+    image: vitess/lite:${VITESS_VERSION}
     platform: linux/amd64
     container_name: vtctlclient
     depends_on:
