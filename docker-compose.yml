@@ -1,0 +1,139 @@
+services:
+  etcd:
+    image: quay.io/coreos/etcd:v3.5.0
+    container_name: etcd # name of the container
+    ports:
+      - "2379:2379" # client url for other services to connect
+      - "2380:2380" # peer url for clustering etcd nodes
+    command: >
+      etcd --name ${ETCD_NAME:-etcd0}
+           --advertise-client-urls ${ETCD_ADVERTISE_CLIENT_URLS}
+           --listen-client-urls ${ETCD_LISTEN_CLIENT_URLS}
+           --listen-peer-urls ${ETCD_LISTEN_PEER_URLS}
+           --data-dir ${ETCD_DATA_DIR}
+           --auto-compaction-retention ${ETCD_AUTO_COMPACTION_RETENTION}
+           --snapshot-count ${ETCD_SNAPSHOT_COUNT}
+    volumes:
+      - ./etcd-data:/etcd-data:rw
+    healthcheck:
+      test: ["CMD", "etcdctl", "endpoint", "health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+
+  # this is the vitess control daemon
+  vtctld:
+    image: vitess/lite:${VITESS_TAG:-latest}
+    platform: linux/amd64
+    container_name: vtctld
+    depends_on:
+      - etcd
+    command: >
+      sh -c '
+        echo "Waiting for etcd...";
+        until wget -qO- http://etcd:2379/health | grep -q "true"; do
+          sleep 2;
+          echo "Still waiting for etcd...";
+        done;
+        echo "etcd is up, starting vtctld...";
+        exec /vt/bin/vtctld \
+          --topo-implementation etcd2 \
+          --topo-global-server-address etcd:2379 \
+          --topo-global-root /vitess/zone1 \
+          --cell zone1 \
+          --service-map grpc-vtctl,grpc-vtctld \
+          --backup-storage-implementation file \
+          --file-backup-storage-root /vt/vtdataroot/backups \
+          --grpc-bind-address 0.0.0.0 \
+          --logtostderr=true \
+          --port 8080 \
+          --grpc-port 15999
+      '
+    ports:
+      - "15000:8080"
+      - "15999:15999"
+
+  vtgate:
+    image: vitess/lite:${VITESS_TAG:-latest}
+    platform: linux/amd64
+    container_name: vtgate
+    depends_on:
+      - vtctld
+      - vtctldclient
+    command: >
+      sh -c '
+        exec /vt/bin/vtgate \
+          --topo-implementation=etcd2 \
+          --topo-global-server-address=etcd:2379 \
+          --topo-global-root=/vitess/zone1 \
+          --cell=zone1 \
+          --cells-to-watch=zone1 \
+          --tablet_types_to_wait=REPLICA,PRIMARY \
+          --port=15001 \
+          --grpc-port=15991 \
+          # --web_port=15002 \
+          --mysql-server-port=15306 \
+          --logtostderr=true
+      '
+    ports:
+      - "15002:15002"  # HTTP web UI
+      - "15001:15001"  # gRPC port
+      - "15306:15306"  # MySQL protocol
+
+  shard0:
+    image: mysql:8.0.43
+    container_name: shard0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    healthcheck:
+      retries: 10
+      test: ["CMD", "mysql", "-uroot", "-proot", "-e", "SHOW DATABASES;"]
+      timeout: 10s
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./my.cnf:/etc/mysql/conf.d/my.cnf
+
+  vttablet0:
+    image: vitess/lite:${VITESS_TAG:-latest}
+    container_name: vttablet0
+    platform: linux/amd64
+    depends_on:
+      - shard0
+      - etcd
+    command: >
+      /vt/bin/vttablet
+      --topo-implementation=etcd2
+      --topo-global-root=/vitess/zone1
+      --topo-global-server-address=etcd:2379
+      --init-keyspace=test_keyspace
+      --init-shard=0
+      --tablet-path=zone1-100
+      --db-port=3306
+      --db-host=shard0
+      --db-credentials-file=/creds.json
+      --init-tablet-type=replica
+    ports:
+      - "15100:15100"
+      - "16000:16000"
+    healthcheck:
+      interval: 30s
+      retries: 15
+      test: ["CMD-SHELL", "curl -s --fail --show-error vttablet0:15100/debug/health"]
+      timeout: 10s
+    volumes:
+      - ./creds.json:/creds.json
+
+  vtctldclient:
+    image: vitess/lite:${VITESS_TAG:-latest}
+    platform: linux/amd64
+    container_name: vtctlclient
+    depends_on:
+      - vtctld
+      - etcd
+    command: >
+      sh -c '
+        /vt/bin/vtctldclient AddCellInfo --root /vitess/zone1 --server=vtctld:15000 zone1;
+        tail -f /dev/null
+      '
