@@ -27,10 +27,6 @@ services:
     container_name: vtctld
     depends_on:
       - etcd
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://vtctld:15000/debug/health"]
-      interval: 5s
-      retries: 10
     command: >
       sh -c '
         echo "Waiting for etcd to be healthy...";
@@ -46,17 +42,22 @@ services:
           --service_map ${VTCTLD_SERVICE_MAP} \
           --backup_storage_implementation ${VTCTLD_BACKUP_STORAGE_IMPL} \
           --file_backup_storage_root ${VTCTLD_FILE_BACKUP_ROOT} \
-          --grpc_bind_address ${VTCTLD_GRPC_BIND_ADDR} \
+          --grpc_bind_address=0.0.0.0 \
           --port ${VTCTLD_HTTP_PORT} \
           --grpc_port ${VTCTLD_GRPC_PORT} \
           --logtostderr=${VTCTLD_LOGTOSTDERR}
       '
     ports:
-      - "15000:8080"
-      - "15999:15999"
+      - "15000:${VTCTLD_HTTP_PORT}"
+      - "${VTCTLD_GRPC_PORT}:${VTCTLD_GRPC_PORT}"
     volumes:
       - ./vtctld-backups:/vt/vtdataroot/backups:rw
-    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://vtctld:8080/debug/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+      start_period: 10s
 
   vtctldclient:
     image: vitess/lite:${VITESS_VERSION}
@@ -91,7 +92,11 @@ services:
           --init_shard ${VTTABLET_SHARD} \
           --tablet-path ${VTCTLD_CELL}-${VTTABLET_PATH} \
           --tablet_hostname=vttablet0 \
+          --port 15100 \
+          --grpc_port 16000 \
           --db_port 3306 \
+          --db_app_user root \
+          --db_app_password root \
           --db_host shard0 \
           --db-credentials-file=/vt/creds.json \
           --init_tablet_type ${VTTABLET_TABLET_TYPE} \
@@ -114,39 +119,49 @@ services:
     container_name: vtgate
     depends_on:
       - vtctld
-      # - vtctldclient
     command: >
       sh -c '
         exec /vt/bin/vtgate \
-          --topo-implementation=etcd2 \
-          --topo-global-server-address=etcd:2379 \
-          --topo-global-root=${VTCTLD_TOPO_GLOBAL_ROOT} \
-          --cell=zone1 \
-          --cells-to-watch=zone1 \
+          --topo_implementation=${VTCTLD_TOPO_IMPL} \
+          --topo_global_server_address=etcd:2379 \
+          --topo_global_root=${VTCTLD_TOPO_GLOBAL_ROOT} \
+          --cell=${VTCTLD_CELL} \
+          --cells_to_watch=${VTCTLD_CELL} \
           --tablet_types_to_wait=REPLICA,PRIMARY \
+          --tablet_protocol=grpc \
           --port=15001 \
-          --grpc-port=15991 \
-          # --web_port=15002 \
-          --mysql-server-port=15306 \
+          --grpc_port=15991 \
+          --mysql_server_port=15306 \
+          --mysql_auth_server_impl=static \
+          --mysql_auth_server_static_file=/vt/config/mysql_auth_server_static.json \
+          --service_map=grpc-queryservice,grpc-tabletmanager,grpc-updatestream,grpc-vtgateservice \
           --logtostderr=true
       '
     ports:
       - "15002:15002"  # HTTP web UI
       - "15001:15001"  # gRPC port
       - "15306:15306"  # MySQL protocol
+    volumes:
+      - ./mysql_auth_server.json:/vt/config/mysql_auth_server_static.json
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:15001/debug/status"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   shard0:
     image: mysql:8.0.43
+    command: --default-authentication-plugin=mysql_native_password --bind-address=0.0.0.0
     container_name: shard0
     environment:
       MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_HOST: '%'
+      MYSQL_AUTH_PLUGIN: caching_sha2_password
     healthcheck:
       retries: 10
       test: ["CMD", "mysql", "-uroot", "-proot", "-e", "SHOW DATABASES;"]
       timeout: 10s
     ports:
-      - "3306:3306"
+      - "13316:3306"
     volumes:
       - ./my.cnf:/etc/mysql/conf.d/my.cnf
-
-

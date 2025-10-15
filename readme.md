@@ -24,12 +24,13 @@ Diagram.
      └──────────┘
 
 
-docker exec -it vtctld vtctldclient \
-  --server vtctld:15999 \
-  AddCellInfo \
-  --server etcd:2379 \
-  --root /vitess/zone1 \
-  zone1
+CREATE USER 'vt_allprivs'@'%' IDENTIFIED BY 'vitesspass';
+CREATE USER 'vt_app'@'%' IDENTIFIED BY 'vitesspass';
+CREATE USER 'vt_dba'@'%' IDENTIFIED BY 'vitesspass';
+CREATE USER 'vt_repl'@'%' IDENTIFIED BY 'vitesspass';
 
-
-vtctldclient AddCellInfo --root /vitess/zone1 --server localhost:15999 zone1
+GRANT ALL ON *.* TO 'vt_allprivs'@'%';
+GRANT SELECT, INSERT, UPDATE, DELETE ON *.* TO 'vt_app'@'%';
+GRANT SUPER, RELOAD, PROCESS ON *.* TO 'vt_dba'@'%';
+GRANT REPLICATION SLAVE ON *.* TO 'vt_repl'@'%';
+FLUSH PRIVILEGES;

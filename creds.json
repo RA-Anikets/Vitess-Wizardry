@@ -1,6 +1,6 @@
 {
-  "vt_allprivs": [""],
-  "vt_dba": [""],
-  "vt_app": [""],
-  "vt_repl": [""]
+  "vt_allprivs": ["vitesspass"],
+  "vt_dba": ["vitesspass"],
+  "vt_app": ["vitesspass"],
+  "vt_repl": ["vitesspass"]
 }
