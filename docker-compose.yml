@@ -113,6 +113,49 @@ services:
     volumes:
       - ./creds.json:/vt/creds.json
 
+  vttablet1:
+    image: vitess/lite:${VITESS_VERSION}
+    container_name: vttablet1
+    platform: linux/amd64
+    depends_on:
+      - shard1
+      - vtctldclient
+    command: >
+      sh -c '
+        until /vt/bin/vtctldclient GetCellInfo --server vtctld:15999 ${VTCTLD_CELL}; do
+          echo "Waiting for CellInfo..."
+          sleep 2
+        done
+        echo "FOUND CellInfo..."
+        exec /vt/bin/vttablet \
+          --topo_implementation ${VTCTLD_TOPO_IMPL} \
+          --topo_global_root ${VTCTLD_TOPO_GLOBAL_ROOT} \
+          --topo_global_server_address etcd:2379 \
+          --init_keyspace ${VTTABLET_KEYSPACE} \
+          --init_shard ${VTTABLET_SHARD} \
+          --tablet-path ${VTCTLD_CELL}-${VTTABLET_PATH} \
+          --tablet_hostname=vttablet0 \
+          --port 15100 \
+          --grpc_port 16000 \
+          --db_port 3306 \
+          --db_app_user root \
+          --db_app_password root \
+          --db_host shard1 \
+          --db-credentials-file=/vt/creds.json \
+          --init_tablet_type ${VTTABLET_TABLET_TYPE} \
+          --service_map ${VTTABLET_SERVICE_MAP}
+        '
+    ports:
+      - "15200:15100"
+      - "16100:16000"
+    healthcheck:
+      interval: 30s
+      retries: 15
+      test: ["CMD-SHELL", "curl -s --fail --show-error vttablet0:15200/debug/health"]
+      timeout: 10s
+    volumes:
+      - ./creds.json:/vt/creds.json
+
   vtgate:
     image: vitess/lite:${VITESS_VERSION}
     platform: linux/amd64
@@ -163,5 +206,22 @@ services:
       timeout: 10s
     ports:
       - "13316:3306"
+    volumes:
+      - ./my.cnf:/etc/mysql/conf.d/my.cnf
+  
+  shard1:
+    image: mysql:8.0.43
+    command: --default-authentication-plugin=mysql_native_password --bind-address=0.0.0.0
+    container_name: shard1
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_HOST: '%'
+      MYSQL_AUTH_PLUGIN: caching_sha2_password
+    healthcheck:
+      retries: 10
+      test: ["CMD", "mysql", "-uroot", "-proot", "-e", "SHOW DATABASES;"]
+      timeout: 10s
+    ports:
+      - "13326:3306"
     volumes:
       - ./my.cnf:/etc/mysql/conf.d/my.cnf
