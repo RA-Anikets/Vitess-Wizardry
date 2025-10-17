@@ -1,0 +1,8 @@
+defaults:
+  discovery_impl: "etcd2"
+  discovery_flags_by_impl: "etcd2=global_addrs=http://etcd:2379"
+
+clusters:
+  - name: "zone1"
+    vtctld_addresses:
+      - "localhost:15999"
