@@ -6,7 +6,7 @@ services:
       - "2379:2379" # client url for other services to connect
       - "2380:2380" # peer url for clustering etcd nodes
     command: >
-      etcd --name ${ETCD_NAME:-etcd0}
+      etcd --name ${ETCD_NAME}
            --advertise-client-urls ${ETCD_ADVERTISE_CLIENT_URLS}
            --listen-client-urls ${ETCD_LISTEN_CLIENT_URLS}
            --listen-peer-urls ${ETCD_LISTEN_PEER_URLS}
@@ -14,7 +14,7 @@ services:
            --auto-compaction-retention ${ETCD_AUTO_COMPACTION_RETENTION}
            --snapshot-count ${ETCD_SNAPSHOT_COUNT}
     volumes:
-      - ./etcd-data:/etcd-data:rw
+      - ./vtdataroot/etcd-data:/etcd-data:rw
     healthcheck:
       test: ["CMD", "etcdctl", "endpoint", "health"]
       interval: 10s
@@ -35,16 +35,19 @@ services:
         done;
         echo "etcd is healthy, starting vtctld...";
         exec /vt/bin/vtctld \
+          --config-file-not-found-handling=ignore \
           --topo_implementation ${VTCTLD_TOPO_IMPL} \
           --topo_global_server_address ${VTCTLD_TOPO_GLOBAL_ADDR} \
           --topo_global_root ${VTCTLD_TOPO_GLOBAL_ROOT} \
           --cell ${VTCTLD_CELL} \
           --service_map ${VTCTLD_SERVICE_MAP} \
           --backup_storage_implementation ${VTCTLD_BACKUP_STORAGE_IMPL} \
+          --log_dir ${VTCTLD_BACKUP_STORAGE_IMPL}/tmp \
           --file_backup_storage_root ${VTCTLD_FILE_BACKUP_ROOT} \
           --grpc_bind_address=0.0.0.0 \
           --port 15000 \
           --grpc_port 15999 \
+          --pprof-http \
           --logtostderr=${VTCTLD_LOGTOSTDERR}
       '
     ports:
@@ -67,30 +70,41 @@ services:
       - vtctld
     command: >
       sh -c '
-        /vt/bin/vtctldclient AddCellInfo --root ${VTCTLD_TOPO_GLOBAL_ROOT} --server vtctld:15999 --server-address etcd:2379 ${VTCTLD_CELL};
+        etcdctl --endpoints=http://etcd:2379 put /vitess/zone1/ ""; \
+        /vt/bin/vtctldclient AddCellInfo --server vtctld:15999 --root /vitess/zone1 --server-address etcd:2379 ${VTCTLD_CELL}; \
+        /vt/bin/vtctldclient CreateKeyspace --server vtctld:15999 --durability-policy=semi_sync ${VTTABLET_KEYSPACE}; \
       '
+    # /vt/bin/vtctldclient AddCellInfo --server vtctld:15999 --root ${VTCTLD_TOPO_GLOBAL_ROOT} --server-address etcd:2379 ${VTCTLD_CELL}; 
+    # /vt/bin/vtctldclient InitTablet --hostname vttablet0 --server-address etcd:2379 --tablet-type replica --server vtctld:15999 ${VTCTLD_CELL}-100; \
+    # /vt/bin/vtctldclient InitTablet --hostname vttablet1 --server-address etcd:2379 --tablet-type rdonly --server vtctld:15999 ${VTCTLD_CELL}-101;
 
   vttablet0:
     image: vitess/lite:${VITESS_VERSION}
     container_name: vttablet0
     platform: linux/amd64
     depends_on:
-      - shard0
-      - vtctldclient
+      shard0:
+        condition: service_healthy
+      vtctldclient:
+        condition: service_started
     command: >
       sh -c '
-        until /vt/bin/vtctldclient GetCellInfo --server vtctld:15999 ${VTCTLD_CELL}; do
-          echo "Waiting for CellInfo..."
-          sleep 2
+        until /vt/bin/vtctldclient GetCellInfo --server vtctld:15999 ${VTCTLD_CELL} \
+          && /vt/bin/vtctldclient GetKeyspace --server vtctld:15999 ${VTTABLET_KEYSPACE}; do
+            echo "Waiting for CellInfo and Keyspace..."
+            sleep 2
         done
         echo "FOUND CellInfo..."
         exec /vt/bin/vttablet \
+          --config-file-not-found-handling=ignore \
+          --log_dir /vtdataroot/vttablet/logs \
           --topo_implementation ${VTCTLD_TOPO_IMPL} \
           --topo_global_root ${VTCTLD_TOPO_GLOBAL_ROOT} \
           --topo_global_server_address etcd:2379 \
+          --init_db_name_override=cmms \
           --init_keyspace ${VTTABLET_KEYSPACE} \
           --init_shard ${VTTABLET_SHARD} \
-          --tablet-path ${VTCTLD_CELL}-${VTTABLET_PATH} \
+          --tablet-path ${VTCTLD_CELL}-100 \
           --tablet_hostname=vttablet0 \
           --port 15100 \
           --grpc_port 16000 \
@@ -100,7 +114,8 @@ services:
           --db_host shard0 \
           --db-credentials-file=/vt/creds.json \
           --init_tablet_type ${VTTABLET_TABLET_TYPE} \
-          --service_map ${VTTABLET_SERVICE_MAP}
+          --service_map ${VTTABLET_SERVICE_MAP} \
+          --pprof-http 
         '
     ports:
       - "15100:15100"
@@ -112,56 +127,72 @@ services:
       timeout: 10s
     volumes:
       - ./creds.json:/vt/creds.json
+      - ./vtdataroot/vttablet0-data:/vtdataroot:rw
+    restart: unless-stopped
 
   vttablet1:
     image: vitess/lite:${VITESS_VERSION}
     container_name: vttablet1
     platform: linux/amd64
     depends_on:
-      - shard1
-      - vtctldclient
+      shard1:
+        condition: service_healthy
+      vtctldclient:
+        condition: service_started
     command: >
       sh -c '
-        until /vt/bin/vtctldclient GetCellInfo --server vtctld:15999 ${VTCTLD_CELL}; do
-          echo "Waiting for CellInfo..."
-          sleep 2
+        until /vt/bin/vtctldclient GetCellInfo --server vtctld:15999 ${VTCTLD_CELL} \
+          && /vt/bin/vtctldclient GetKeyspace --server vtctld:15999 ${VTTABLET_KEYSPACE}; do
+            echo "Waiting for CellInfo and Keyspace..."
+            sleep 2
         done
         echo "FOUND CellInfo..."
         exec /vt/bin/vttablet \
+          --config-file-not-found-handling=ignore \
+          --log_dir /vtdataroot/vttablet/logs \
           --topo_implementation ${VTCTLD_TOPO_IMPL} \
           --topo_global_root ${VTCTLD_TOPO_GLOBAL_ROOT} \
           --topo_global_server_address etcd:2379 \
+          --init_db_name_override=cmms \
           --init_keyspace ${VTTABLET_KEYSPACE} \
           --init_shard ${VTTABLET_SHARD} \
           --tablet-path ${VTCTLD_CELL}-101 \
-          --tablet_hostname=vttablet0 \
-          --port 15100 \
-          --grpc_port 16000 \
+          --tablet_hostname=vttablet1 \
+          --port 15200 \
+          --grpc_port 16100 \
           --db_port 3306 \
           --db_app_user root \
           --db_app_password root \
           --db_host shard1 \
           --db-credentials-file=/vt/creds.json \
-          --init_tablet_type ${VTTABLET_TABLET_TYPE} \
-          --service_map ${VTTABLET_SERVICE_MAP}
+          --init_tablet_type rdonly \
+          --service_map ${VTTABLET_SERVICE_MAP} \
+          --pprof-http 
         '
     ports:
-      - "15200:15100"
-      - "16100:16000"
+      - "15200:15200"
+      - "16100:16100"
     healthcheck:
       interval: 30s
       retries: 15
-      test: ["CMD-SHELL", "curl -s --fail --show-error vttablet0:15200/debug/health"]
+      test: ["CMD-SHELL", "curl -s --fail --show-error vttablet1:15200/debug/health"]
       timeout: 10s
     volumes:
       - ./creds.json:/vt/creds.json
+      - ./vtdataroot/vttablet1-data:/vtdataroot:rw
+    restart: unless-stopped
 
   vtgate:
     image: vitess/lite:${VITESS_VERSION}
     platform: linux/amd64
     container_name: vtgate
     depends_on:
-      - vtctld
+      vtctld:
+        condition: service_healthy
+      vttablet0:
+        condition: service_started
+      vttablet1:
+        condition: service_started
     command: >
       sh -c '
         exec /vt/bin/vtgate \
@@ -199,7 +230,6 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_ROOT_HOST: '%'
-      MYSQL_AUTH_PLUGIN: caching_sha2_password
     healthcheck:
       retries: 10
       test: ["CMD", "mysql", "-uroot", "-proot", "-e", "SHOW DATABASES;"]
@@ -207,7 +237,8 @@ services:
     ports:
       - "13316:3306"
     volumes:
-      - ./my.cnf:/etc/mysql/conf.d/my.cnf
+      # - ./mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./mysql/scripts/:/docker-entrypoint-initdb.d/
   
   shard1:
     image: mysql:8.0.43
@@ -216,7 +247,6 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_ROOT_HOST: '%'
-      MYSQL_AUTH_PLUGIN: caching_sha2_password
     healthcheck:
       retries: 10
       test: ["CMD", "mysql", "-uroot", "-proot", "-e", "SHOW DATABASES;"]
@@ -224,7 +254,8 @@ services:
     ports:
       - "13326:3306"
     volumes:
-      - ./my.cnf:/etc/mysql/conf.d/my.cnf
+      # - ./my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./mysql/scripts/:/docker-entrypoint-initdb.d/
 
   # vtadmin-api:
   #   image: vitess/lite:v20.0.8

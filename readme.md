@@ -23,17 +23,23 @@ Diagram.
      │  vtgate  │ ← Clients connect here (MySQL or gRPC)
      └──────────┘
 
-CREATE DATABASE vt_test_keyspace;
-CREATE USER 'vt_allprivs'@'%' IDENTIFIED BY 'vitesspass';
-CREATE USER 'vt_app'@'%' IDENTIFIED BY 'vitesspass';
 CREATE USER 'vt_dba'@'%' IDENTIFIED BY 'vitesspass';
+CREATE USER 'vt_app'@'%' IDENTIFIED BY 'vitesspass';
+CREATE USER 'vt_allprivs'@'%' IDENTIFIED BY 'vitesspass';
 CREATE USER 'vt_repl'@'%' IDENTIFIED BY 'vitesspass';
+CREATE USER 'vt_filtered'@'%' IDENTIFIED BY 'vitesspass';
 
-GRANT ALL ON *.* TO 'vt_allprivs'@'%';
+GRANT ALL ON *.* TO 'vt_dba'@'%';
+GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, RELOAD, PROCESS, REFERENCES, INDEX, ALTER, SHOW DATABASES, CREATE TEMPORARY TABLES, LOCK TABLES, EXECUTE, REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO 'vt_allprivs'@'%';
 GRANT SELECT, INSERT, UPDATE, DELETE ON *.* TO 'vt_app'@'%';
-GRANT SUPER, RELOAD, PROCESS ON *.* TO 'vt_dba'@'%';
 GRANT REPLICATION SLAVE ON *.* TO 'vt_repl'@'%';
-GRANT ALL PRIVILEGES ON vt_test_keyspace.* TO 'vt_dba'@'%';
-GRANT SELECT, INSERT, UPDATE, DELETE ON vt_test_keyspace.* TO 'vt_app'@'%';
-GRANT ALL PRIVILEGES ON *.* TO 'vt_allprivs'@'%';
+GRANT SELECT ON *.* TO 'vt_filtered'@'%';
+
 FLUSH PRIVILEGES;
+
+
+
+docker exec -it vtctld vtctlclient --server vtctld:15999 DeleteTablet zone1-0000000100
+docker exec -it vtctld vtctlclient --server vtctld:15999 DeleteTablet zone1-0000000101
+docker restart vttablet0 vttablet1
+

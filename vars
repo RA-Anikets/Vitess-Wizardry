@@ -1,0 +1,24 @@
+export ETCD_VERSION=3.5.9
+export ETCD_NAME=etcd0
+export ETCD_ADVERTISE_CLIENT_URLS=http://0.0.0.0:2379
+export ETCD_LISTEN_CLIENT_URLS=http://0.0.0.0:2379
+export ETCD_LISTEN_PEER_URLS=http://0.0.0.0:2380
+export ETCD_DATA_DIR=/etcd-data
+export ETCD_AUTO_COMPACTION_RETENTION=1
+export ETCD_SNAPSHOT_COUNT=10000
+
+export VITESS_VERSION=v20.0.8
+export VTCTLD_TOPO_IMPL=etcd2
+export VTCTLD_TOPO_GLOBAL_ADDR=etcd:2379
+export VTCTLD_TOPO_GLOBAL_ROOT=/vitess/global
+export VTCTLD_CELL=local
+export VTCTLD_SERVICE_MAP=grpc-vtctl,grpc-vtctld
+export VTCTLD_BACKUP_STORAGE_IMPL=file
+export VTCTLD_FILE_BACKUP_ROOT=/vt/vtdataroot/backups
+export VTCTLD_LOGTOSTDERR=true
+
+export VTTABLET_KEYSPACE=test_keyspace
+export VTTABLET_SHARD=0
+export VTTABLET_PATH=0000000000
+export VTTABLET_TABLET_TYPE=replica
+export VTTABLET_SERVICE_MAP=grpc-queryservice,grpc-tabletmanager,grpc-updatestream
