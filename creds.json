@@ -2,5 +2,6 @@
   "vt_allprivs": ["vitesspass!"],
   "vt_dba": ["vitesspass!"],
   "vt_app": ["vitesspass!"],
-  "vt_repl": ["vitesspass!"]
+  "vt_repl": ["vitesspass!"],
+  "vt_filtered": ["vitesspass!"]
 }

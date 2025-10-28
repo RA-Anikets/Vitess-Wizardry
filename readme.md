@@ -42,10 +42,13 @@ FLUSH PRIVILEGES;
 docker exec -it vtctld vtctlclient --server vtctld:15999 DeleteTablet zone1-0000000100
 docker exec -it vtctld vtctlclient --server vtctld:15999 DeleteTablet zone1-0000000101
 docker restart vttablet0 vttablet1
-
+docker exec -it vtctld vtctldclient --server vtctld:15999 PlannedReparentShard cmms/0 --new-primary zone1-0000000101
 
 
 docker exec -it vtctld vtctlclient --server vtctld:15999 PlannedReparentShard cmms/0 zone1-0000000100
+docker ps --format "table {{.Names}}\t{{.Image}}\t{{.Status}}\t{{.Ports}}"
+docker exec -it shard0 mysql -uroot -proot -e "SHOW MASTER STATUS\G; SELECT @@GLOBAL.GTID_EXECUTED\G"
+
 
 
 

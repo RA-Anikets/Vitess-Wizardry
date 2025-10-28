@@ -13,6 +13,9 @@ GRANT REPLICATION SLAVE ON *.* TO 'vt_repl'@'%';
 CREATE USER 'vt_super'@'%' IDENTIFIED BY 'vitesspass!';
 GRANT SUPER, PROCESS, RELOAD, SHUTDOWN ON *.* TO 'vt_super'@'%';
 
+CREATE USER 'vt_filtered'@'%' IDENTIFIED BY 'vitesspass!';
+GRANT SELECT ON *.* TO 'vt_filtered'@'%';
+
 CREATE DATABASE IF NOT EXISTS _vt;
 CREATE DATABASE IF NOT EXISTS cmms;
 CREATE DATABASE IF NOT EXISTS vt_cmms;
