@@ -186,7 +186,7 @@ services:
       - ./creds.json:/vt/creds.json
       - ./vtdataroot/vttablet0_1-data:/vtdataroot:rw
 
-#200 schShared shard1 - 1
+#200 schShared shard1 - 0
   vttablet1:
     image: vitess/lite:${VITESS_VERSION}
     container_name: vttablet1
@@ -213,7 +213,7 @@ services:
           --topo_global_server_address etcd:2379 \
           --init_db_name_override ${VTTABLET_KEYSPACE_SHARED} \
           --init_keyspace ${VTTABLET_KEYSPACE_SHARED} \
-          --init_shard 0 \
+          --init_shard ${VTTABLET_SHARD} \
           --tablet-path ${VTCTLD_CELL}-200 \
           --tablet_hostname='' \
           --port 15200 \
@@ -239,7 +239,7 @@ services:
       - ./creds.json:/vt/creds.json
       - ./vtdataroot/vttablet1-data:/vtdataroot:rw
 
-#201 schTenant shard1 - 1
+#201 schTenant shard1 - 0
   vttablet1_1:
     image: vitess/lite:${VITESS_VERSION}
     container_name: vttablet1_1
@@ -266,7 +266,7 @@ services:
           --topo_global_server_address etcd:2379 \
           --init_db_name_override ${VTTABLET_KEYSPACE_TENANT} \
           --init_keyspace ${VTTABLET_KEYSPACE_TENANT} \
-          --init_shard 0 \
+          --init_shard ${VTTABLET_SHARD} \
           --tablet-path ${VTCTLD_CELL}-201 \
           --tablet_hostname='' \
           --port 15201 \
@@ -292,7 +292,7 @@ services:
       - ./creds.json:/vt/creds.json
       - ./vtdataroot/vttablet1_1-data:/vtdataroot:rw
 
-#300 schShared shard2 - 2
+#300 schShared shard2 - 0
   vttablet2:
     image: vitess/lite:${VITESS_VERSION}
     container_name: vttablet2
@@ -319,7 +319,7 @@ services:
           --topo_global_server_address etcd:2379 \
           --init_db_name_override ${VTTABLET_KEYSPACE_SHARED} \
           --init_keyspace ${VTTABLET_KEYSPACE_SHARED} \
-          --init_shard 0 \
+          --init_shard ${VTTABLET_SHARD} \
           --tablet-path ${VTCTLD_CELL}-300 \
           --tablet_hostname= '' \
           --port 15300 \
@@ -344,7 +344,8 @@ services:
     volumes:
       - ./creds.json:/vt/creds.json
       - ./vtdataroot/vttablet2-data:/vtdataroot:rw
-#301 schTenant shard2
+
+#301 schTenant shard2 - 0
   vttablet2_1:
     image: vitess/lite:${VITESS_VERSION}
     container_name: vttablet2_1
@@ -371,7 +372,7 @@ services:
           --topo_global_server_address etcd:2379 \
           --init_db_name_override ${VTTABLET_KEYSPACE_TENANT} \
           --init_keyspace ${VTTABLET_KEYSPACE_TENANT} \
-          --init_shard 0 \
+          --init_shard ${VTTABLET_SHARD} \
           --tablet-path ${VTCTLD_CELL}-301 \
           --tablet_hostname= '' \
           --port 15301 \
