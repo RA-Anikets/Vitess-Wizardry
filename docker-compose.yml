@@ -74,6 +74,7 @@ services:
         /vt/bin/vtctldclient AddCellInfo --server vtctld:15999 --root /vitess/zone1 --server-address etcd:2379 ${VTCTLD_CELL}; \
         /vt/bin/vtctldclient CreateKeyspace --server vtctld:15999 --durability-policy=semi_sync ${VTTABLET_KEYSPACE}; \
       '
+    # TODO: vtctlclient ApplySchema -sql-file schema.sql your_keyspace
       
   vttablet0:
     image: vitess/lite:${VITESS_VERSION}
@@ -110,7 +111,7 @@ services:
           --db_app_password root \
           --db_host shard0 \
           --db-credentials-file=/vt/creds.json \
-          --init_tablet_type ${VTTABLET_TABLET_TYPE} \
+          --init_tablet_type replica \
           --service_map ${VTTABLET_SERVICE_MAP} \
           --pprof-http 
         '
@@ -253,3 +254,26 @@ services:
     volumes:
       - ./mysql/my.cnf:/etc/mysql/conf.d/my.cnf
       - ./mysql/scripts/:/docker-entrypoint-initdb.d/
+
+  vtorc:
+    platform: linux/amd64
+    command: >
+      sh -c '
+        exec /vt/bin/vtorc \
+          --topo_implementation=${VTCTLD_TOPO_IMPL} \
+          --topo_global_server_address=etcd:2379 \
+          --topo_global_root=${VTCTLD_TOPO_GLOBAL_ROOT} \
+          --log_dir $VTDATAROOT/tmp \
+          --port 8080 \
+          --config-file=/vtorc.json
+      '
+    depends_on:
+      vtctld:
+        condition: service_healthy
+      vtctldclient:
+        condition: service_started
+    image: vitess/lite:v20.0.8
+    ports:
+    - 13000:8080
+    volumes:
+    - ./vtorc.json:/vtorc.json

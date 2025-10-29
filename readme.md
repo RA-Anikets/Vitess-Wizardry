@@ -49,7 +49,6 @@ docker exec -it vtctld vtctlclient --server vtctld:15999 PlannedReparentShard cm
 docker ps --format "table {{.Names}}\t{{.Image}}\t{{.Status}}\t{{.Ports}}"
 docker exec -it shard0 mysql -uroot -proot -e "SHOW MASTER STATUS\G; SELECT @@GLOBAL.GTID_EXECUTED\G"
 
-
-
-
-vtadmin --addr "localhost:14200" --http-origin "http://localhost:14200" —http-tablet-url-tmpl "http://{{ .Tablet.Hostname }}:15{{ .Tablet.Alias.Uid }}" --tracer "opentracing-jaeger" --grpc-tracing --http-tracing --logtostderr --alsologtostderr --rbac --rbac-config=“./vtadmin/config/rbac.yaml" --cluster "id=local,name=local,discovery=staticfile,discovery-staticfile-path=./vtadmin/config/discovery.json,tablet-fqdn-tmpl=http://{{ .Tablet.Hostname }}:15{{ .Tablet.Alias.Uid }},schema-cache-default-expiration=1m" > “./vtadmin/logs/vtadmin-api.out" 2>&1
+STOP SLAVE;
+RESET MASTER;
+RESET SLAVE ALL;
