@@ -35,6 +35,4 @@ SHOW PLUGINS;
 
 STOP SLAVE;
 RESET MASTER;
-SET GLOBAL gtid_purged='';
--- reset replication
 RESET SLAVE ALL;

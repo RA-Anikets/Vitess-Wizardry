@@ -26,7 +26,8 @@ services:
     platform: linux/amd64
     container_name: vtctld
     depends_on:
-      - etcd
+      etcd:
+        condition: service_healthy
     command: >
       sh -c '
         echo "Waiting for etcd to be healthy...";
@@ -67,18 +68,20 @@ services:
     platform: linux/amd64
     container_name: vtctldclient
     depends_on:
-      - vtctld
+      vtctld:
+        condition: service_healthy
     command: >
       sh -c '
         etcdctl --endpoints=http://etcd:2379 put /vitess/zone1/ ""; \
         /vt/bin/vtctldclient AddCellInfo --server vtctld:15999 --root /vitess/zone1 --server-address etcd:2379 ${VTCTLD_CELL}; \
-        /vt/bin/vtctldclient CreateKeyspace --server vtctld:15999 --durability-policy=semi_sync ${VTTABLET_KEYSPACE_SHARED}; \
-        /vt/bin/vtctldclient CreateKeyspace --server vtctld:15999 --durability-policy=semi_sync ${VTTABLET_KEYSPACE_TENANT}; \
-        /vt/bin/vtctldclient ApplySchema -sql-file /vt/vtdataroot/${VTTABLET_KEYSPACE_SHARED}.sql ${VTTABLET_KEYSPACE_SHARED}; \
-        /vt/bin/vtctldclient ApplySchema -sql-file /vt/vtdataroot/${VTTABLET_KEYSPACE_TENANT}.sql ${VTTABLET_KEYSPACE_TENANT}; 
+        /vt/bin/vtctldclient AddCellInfo --server vtctld:15999 --root /vitess/global --server-address etcd:2379 ${VTCTLD_CELL}; \
+        /vt/bin/vtctldclient CreateKeyspace --server vtctld:15999 --durability-policy=semi_sync ${VTTABLET_KEYSPACE_SHARED}; 
       '
     volumes:
       - ./mysql/schemas:/vt/vtdataroot
+        # /vt/bin/vtctldclient CreateKeyspace --server vtctld:15999 --durability-policy=semi_sync ${VTTABLET_KEYSPACE_TENANT};
+        # /vt/bin/vtctldclient ApplySchema --server vtctld:15999 --sql-file /vt/vtdataroot/${VTTABLET_KEYSPACE_SHARED}.sql ${VTTABLET_KEYSPACE_SHARED}; \
+        # /vt/bin/vtctldclient ApplySchema --server vtctld:15999 --sql-file /vt/vtdataroot/${VTTABLET_KEYSPACE_TENANT}.sql ${VTTABLET_KEYSPACE_TENANT}; 
 
 #100 schShared shard0 - 0
   vttablet0:
@@ -93,8 +96,7 @@ services:
     command: >
       sh -c '
         until /vt/bin/vtctldclient GetCellInfo --server vtctld:15999 ${VTCTLD_CELL} \
-          && /vt/bin/vtctldclient GetKeyspace --server vtctld:15999 ${VTTABLET_KEYSPACE_SHARED} \
-          && /vt/bin/vtctldclient GetKeyspace --server vtctld:15999 ${VTTABLET_KEYSPACE_TENANT}; do
+          && /vt/bin/vtctldclient GetKeyspace --server vtctld:15999 ${VTTABLET_KEYSPACE_SHARED}; do
             echo "Waiting for CellInfo and Keyspace..."
             sleep 2
         done
@@ -199,8 +201,7 @@ services:
     command: >
       sh -c '
         until /vt/bin/vtctldclient GetCellInfo --server vtctld:15999 ${VTCTLD_CELL} \
-          && /vt/bin/vtctldclient GetKeyspace --server vtctld:15999 ${VTTABLET_KEYSPACE_SHARED} \
-          && /vt/bin/vtctldclient GetKeyspace --server vtctld:15999 ${VTTABLET_KEYSPACE_TENANT}; do
+          && /vt/bin/vtctldclient GetKeyspace --server vtctld:15999 ${VTTABLET_KEYSPACE_SHARED}; do
             echo "Waiting for CellInfo and Keyspace..."
             sleep 2
         done
@@ -412,6 +413,7 @@ services:
           --topo_global_server_address=etcd:2379 \
           --topo_global_root=${VTCTLD_TOPO_GLOBAL_ROOT} \
           --cell=${VTCTLD_CELL} \
+          --track-udfs \
           --cells_to_watch=${VTCTLD_CELL} \
           --tablet_types_to_wait=REPLICA,PRIMARY \
           --tablet_protocol=grpc \
@@ -504,7 +506,7 @@ services:
         condition: service_healthy
       vtctldclient:
         condition: service_started
-    image: vitess/lite:v20.0.8
+    image: vitess/lite:${VITESS_VERSION}
     ports:
     - 13000:8080
     volumes:
