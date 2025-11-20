@@ -4,7 +4,8 @@ This repository includes a docker-compose setup to run a small Vitess cluster lo
 
 Files of interest
 - `docker-compose.yml` — the compose services for etcd, vtctld, vtgate, vttablets and MySQL shards
-- `.env` — environment variables used by the compose file
+- `.env` — environment variables used by the compose file (recommended; see example below)
+- `vars` — shell-exported environment variables you can `source` instead of using a `.env`
 - `mysql/` — MySQL configuration, init scripts and schema files (put .sql files under `mysql/schemas/`)
 
 Quick diagram
@@ -26,11 +27,47 @@ Quick diagram
 
 # Configuration
 
-1. Review and edit the `.env` file to set versions and topology variables. A sample is included in the repo. Important variables:
+1. Set the required environment variables used by `docker-compose.yml`. You can EITHER:
+   - create a `.env` file in the repo root (Compose auto-loads this), OR
+   - run `source ./vars` in your shell to export the same variables.
+
+Important variables:
 
 - `VITESS_VERSION` — Vitess image tag (example: `v22.0.1`)
 - `VTCTLD_CELL` — cell name (example: `zone1`)
 - `VTTABLET_KEYSPACE_SHARED` / `VTTABLET_KEYSPACE_TENANT` — keyspace names used by the example
+- `VTTABLET_SHARD` — shard name (example: `0`)
+
+Example `.env` (you can copy/paste and adjust):
+
+```env
+# etcd
+ETCD_VERSION=3.5.9
+ETCD_NAME=etcd0
+ETCD_ADVERTISE_CLIENT_URLS=http://0.0.0.0:2379
+ETCD_LISTEN_CLIENT_URLS=http://0.0.0.0:2379
+ETCD_LISTEN_PEER_URLS=http://0.0.0.0:2380
+ETCD_DATA_DIR=/etcd-data
+ETCD_AUTO_COMPACTION_RETENTION=1
+ETCD_SNAPSHOT_COUNT=10000
+
+# vitess core
+VITESS_VERSION=v20.0.8
+VTCTLD_TOPO_IMPL=etcd2
+VTCTLD_TOPO_GLOBAL_ADDR=etcd:2379
+VTCTLD_TOPO_GLOBAL_ROOT=/vitess/global
+VTCTLD_CELL=local
+VTCTLD_SERVICE_MAP=grpc-vtctl,grpc-vtctld
+VTCTLD_BACKUP_STORAGE_IMPL=file
+VTCTLD_FILE_BACKUP_ROOT=/vt/vtdataroot/backups
+VTCTLD_LOGTOSTDERR=true
+
+# keyspaces and tablets
+VTTABLET_KEYSPACE_SHARED=schShared
+VTTABLET_KEYSPACE_TENANT=schTenant
+VTTABLET_SHARD=0
+VTTABLET_SERVICE_MAP=grpc-queryservice,grpc-tabletmanager,grpc-updatestream
+```
 
 2. Put your schema files in `mysql/schemas/` (this repo already contains `schShared.sql`, `schTenant.sql` and a `schShared/` folder with split parts).
 
@@ -39,8 +76,12 @@ Quick diagram
 From the repository root:
 
 ```sh
-# start services in background
-docker-compose up -d
+# Option A: using .env in repo root (auto-loaded by Compose)
+docker compose up -d
+
+# Option B: using the provided 'vars' file
+source ./vars
+docker compose up -d
 ```
 
 Give etcd and vtctld a bit of time to become healthy. The compose file already uses healthchecks and `depends_on` conditions to ensure components start in sensible order.
@@ -65,6 +106,12 @@ Check vtgate MySQL gateway port (default in compose):
 MySQL protocol: localhost:15306
 HTTP UI: http://localhost:15001
 gRPC: localhost:15991
+```
+
+vtorc UI (optional):
+
+```
+http://localhost:13000
 ```
 
 # Apply keyspaces and schemas
@@ -113,13 +160,13 @@ docker exec -it vtctld vtctldclient --server vtctld:15999 PlannedReparentShard s
 # Stopping and tearing down
 
 ```sh
-docker-compose down
+docker compose down
 ```
 
 To remove volumes as well:
 
 ```sh
-docker-compose down -v
+docker compose down -v
 ```
 
 # Notes and troubleshooting
