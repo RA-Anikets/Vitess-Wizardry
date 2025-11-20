@@ -127,10 +127,10 @@ type: Opaque
 stringData:
   users.json: |
     {
-      "user": [{
-        "UserData": "user1",
-        "Password": "password1"
-      }]
+      "root":[{"Password": "password1"}],
+      "user1":[{"Password": "password1"}],
+      "usrAdmin":[{"Password": "uDrHNVvEhtBf"}],
+      "usrTenant":[{"Password": "MlzHVOGCoXlG"}]
     }
   init_db.sql: |
     # This file is executed immediately after mysql_install_db,

@@ -16,6 +16,14 @@ Defines a complete Vitess cluster named `cmms-vitess-cluster` in the `cmms` name
 - **VitessCluster Resource**: Main cluster configuration
 - **Secret**: Contains authentication credentials, database initialization script, and RBAC rules
 
+### `scripts/port-forward.sh`
+A convenience script for managing port-forwards to Vitess services. Features:
+- **Dynamic Service Discovery**: Automatically finds services with auto-generated hashes
+- **Background Process Management**: Runs port-forwards in background with PID tracking
+- **Port Conflict Detection**: Checks if ports are already in use
+- **Multiple Commands**: start, stop, status, restart
+- **Configurable Ports**: Via environment variables
+
 ## Cluster Configuration
 
 ### Key Components
@@ -141,6 +149,46 @@ kubectl -n cmms exec "$VTCTLD_POD" -- \
 
 ### 6. Access the Cluster
 
+#### Option A: Using the Port-Forward Script (Recommended)
+
+Use the provided script for easy port-forwarding:
+
+```bash
+# Start all port-forwards
+./kube/scripts/port-forward.sh start
+
+# Check status
+./kube/scripts/port-forward.sh status
+
+# Stop all port-forwards
+./kube/scripts/port-forward.sh stop
+
+# Restart all port-forwards
+./kube/scripts/port-forward.sh restart
+```
+
+The script automatically:
+- Discovers service names (handles auto-generated hashes)
+- Checks if ports are available
+- Starts port-forwards in the background
+- Tracks PIDs for easy management
+
+**Default ports:**
+- VTAdmin Web UI: `http://localhost:15000`
+- VTAdmin API: `http://localhost:15001`
+- VTGate MySQL: `localhost:3306`
+- VTCTLD Web UI: `http://localhost:15002`
+- VTCTLD gRPC: `localhost:15999`
+
+**Custom ports via environment variables:**
+```bash
+VTADMIN_WEB_PORT=14000 VTADMIN_API_PORT=14001 ./kube/scripts/port-forward.sh start
+```
+
+**Note**: The `apiAddresses` in `vitess_cluster.yaml` must match your VTAdmin API port (default: `http://localhost:15001`).
+
+#### Option B: Manual Port-Forward
+
 **Important**: Service names include auto-generated hashes, so always use dynamic discovery:
 
 ```bash
@@ -150,7 +198,6 @@ VTADMIN_SVC=$(kubectl -n cmms get svc -o name | grep vtadmin | cut -d/ -f2)
 kubectl -n cmms port-forward svc/$VTADMIN_SVC 15000:web 15001:api &
 # Access Web UI at: http://localhost:15000
 # Access API at: http://localhost:15001
-# Note: The apiAddresses in vitess_cluster.yaml must be set to http://localhost:15001
 
 # Port-forward VTCTLD (Control plane API and Web UI) - in a separate terminal
 # Service name format: cmms-vitess-cluster-vtctld-<hash>
@@ -166,11 +213,12 @@ kubectl -n cmms port-forward svc/$VTGATE_SVC 3306:3306 &
 # Connect with: mysql -h 127.0.0.1 -P 3306 -u user1 -ppassword1 schShared
 ```
 
-**Note**: If VTAdmin UI is blank, ensure:
-1. The shard primary is initialized (step 4)
-2. At least one table exists and VSchema is applied (step 5)
-3. The `apiAddresses` in `vitess_cluster.yaml` matches the port-forward port (15001)
-4. Hard refresh the browser (Ctrl+F5 or Cmd+Shift+R)
+**Note**: If VTAdmin UI is blank or not showing keyspaces/tablets:
+1. Ensure the shard primary is initialized (step 4)
+2. Rebuild keyspace graph: `kubectl -n cmms exec "$VTCTLD_POD" -- vtctldclient --server localhost:15999 RebuildKeyspaceGraph schShared`
+3. Restart VTAdmin: `kubectl -n cmms delete pod $(kubectl -n cmms get pods -o name | grep vtadmin | head -1 | cut -d/ -f2)`
+4. The `apiAddresses` in `vitess_cluster.yaml` must match the port-forward port (default: 15001)
+5. Hard refresh the browser (Ctrl+F5 or Cmd+Shift+R)
 
 ## Stop Commands
 
@@ -330,31 +378,94 @@ kubectl -n cmms logs "$VTCTLD_POD" --tail=50 | grep -i "error"
 
 ## Important Notes
 
-1. **Dynamic Service Names**: All service names include auto-generated hashes (e.g., `cmms-vitess-cluster-vtadmin-97a34abe`). Always use dynamic discovery commands rather than hardcoded names.
+1. **Dynamic Service Names**: All service names include auto-generated hashes (e.g., `cmms-vitess-cluster-vtadmin-97a34abe`). Always use dynamic discovery commands or the port-forward script rather than hardcoded names.
 
-2. **VTAdmin apiAddresses**: The `apiAddresses` field in `vitess_cluster.yaml` must match your port-forward port. Default is `http://localhost:15001`. If you change the port-forward, update this value and restart VTAdmin.
+2. **Port-Forward Script**: Use `./kube/scripts/port-forward.sh` for easy port-forward management. It handles dynamic service discovery, port conflicts, and background process management automatically.
 
-3. **Backup Location**: The backup is configured to use `/tmp` on the host, which is suitable for development only. For production, use a proper object storage solution (S3, GCS, etc.).
+3. **VTAdmin apiAddresses**: The `apiAddresses` field in `vitess_cluster.yaml` must match your port-forward port. Default is `http://localhost:15001`. If you change the port-forward port, update this value and restart VTAdmin.
 
-4. **Resource Limits**: The current configuration uses minimal resources suitable for development. Adjust CPU and memory limits for production workloads.
+4. **VTAdmin Display**: VTAdmin should show keyspaces and tablets even without tables. If it's blank:
+   - Ensure shard primary is initialized
+   - Rebuild keyspace graph
+   - Restart VTAdmin pod
+   - Verify port-forward is running and `apiAddresses` matches
 
-5. **Durability Policy**: The keyspace uses `durabilityPolicy: none`, which means no semi-sync replication. For production, consider using `semi_sync` or `cross_cell`.
+5. **Backup Location**: The backup is configured to use `/tmp` on the host, which is suitable for development only. For production, use a proper object storage solution (S3, GCS, etc.).
 
-6. **Authentication**: The cluster uses static authentication with credentials stored in a Secret. For production, consider using more secure authentication methods.
+6. **Resource Limits**: The current configuration uses minimal resources suitable for development. Adjust CPU and memory limits for production workloads.
 
-7. **Namespace**: The operator watches `default` and `cmms` namespaces. If you deploy to a different namespace, update the `WATCH_NAMESPACE` environment variable in the operator deployment.
+7. **Durability Policy**: The keyspace uses `durabilityPolicy: none`, which means no semi-sync replication. For production, consider using `semi_sync` or `cross_cell`.
 
-8. **Tablet Aliases**: Tablet aliases are auto-generated (format: `zone1-XXXXXXXX`). Always discover them dynamically using `GetTablets` command rather than hardcoding.
+8. **Authentication**: The cluster uses static authentication with credentials stored in a Secret. For production, consider using more secure authentication methods.
+
+9. **Namespace**: The operator watches `default` and `cmms` namespaces. If you deploy to a different namespace, update the `WATCH_NAMESPACE` environment variable in the operator deployment.
+
+10. **Tablet Aliases**: Tablet aliases are auto-generated (format: `zone1-XXXXXXXX`). Always discover them dynamically using `GetTablets` command rather than hardcoding.
+
+## Port-Forward Script Details
+
+The `scripts/port-forward.sh` script provides an easy way to manage port-forwards to all Vitess services.
+
+### Usage
+
+```bash
+# Start all port-forwards (default ports)
+./kube/scripts/port-forward.sh start
+
+# Start with custom ports
+VTADMIN_WEB_PORT=14000 VTADMIN_API_PORT=14001 ./kube/scripts/port-forward.sh start
+
+# Check status of running port-forwards
+./kube/scripts/port-forward.sh status
+
+# Stop all port-forwards
+./kube/scripts/port-forward.sh stop
+
+# Restart all port-forwards
+./kube/scripts/port-forward.sh restart
+
+# Custom namespace
+NAMESPACE=my-namespace ./kube/scripts/port-forward.sh start
+```
+
+### Features
+
+- **Automatic Service Discovery**: Finds services with auto-generated hashes
+- **Port Conflict Detection**: Warns if ports are already in use
+- **Background Execution**: Runs port-forwards in background, script exits cleanly
+- **PID Tracking**: Stores PIDs in `/tmp/vitess-pf-*.pid` for easy management
+- **Logging**: Logs stored in `/tmp/vitess-pf-*.log`
+- **Signal Handling**: Properly cleans up on Ctrl+C
+
+### Default Ports
+
+- VTAdmin Web UI: `15000`
+- VTAdmin API: `15001`
+- VTGate MySQL: `3306`
+- VTCTLD Web UI: `15002`
+- VTCTLD gRPC: `15999`
+
+### Environment Variables
+
+All ports can be customized via environment variables:
+- `NAMESPACE` - Kubernetes namespace (default: `cmms`)
+- `VTADMIN_WEB_PORT` - VTAdmin web UI port (default: `15000`)
+- `VTADMIN_API_PORT` - VTAdmin API port (default: `15001`)
+- `VTGATE_PORT` - VTGate MySQL port (default: `3306`)
+- `VTCTLD_WEB_PORT` - VTCTLD web UI port (default: `15002`)
+- `VTCTLD_GRPC_PORT` - VTCTLD gRPC port (default: `15999`)
 
 ## Next Steps
 
 After the cluster is running and the shard is initialized:
 
-1. **Create Schema**: Apply your database schema to the keyspace using `ExecuteFetchAsDBA` or `ApplySchema`
-2. **Configure VSchema**: Define routing rules for your tables using `ApplyVSchema`
-3. **Rebuild Keyspace Graph**: After schema/VSchema changes, run `RebuildKeyspaceGraph` to refresh serving data
-4. **Test Connectivity**: Connect via VTGate and run test queries
-5. **Monitor**: Use VTAdmin dashboard to monitor cluster health
+1. **Access Services**: Use the port-forward script to access VTAdmin, VTGate, and VTCTLD
+2. **Verify Cluster**: Check VTAdmin UI to see keyspaces and tablets (should work even without tables)
+3. **Create Schema**: Apply your database schema to the keyspace using `ExecuteFetchAsDBA` or `ApplySchema`
+4. **Configure VSchema**: Define routing rules for your tables using `ApplyVSchema`
+5. **Rebuild Keyspace Graph**: After schema/VSchema changes, run `RebuildKeyspaceGraph` to refresh serving data
+6. **Test Connectivity**: Connect via VTGate and run test queries
+7. **Monitor**: Use VTAdmin dashboard to monitor cluster health
 
 ### Example: Apply Your Own Schema
 
