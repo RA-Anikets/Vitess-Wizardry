@@ -97,8 +97,6 @@ spec:
               vttablet:
                 extraFlags:
                   db_charset: utf8mb4
-                  queryserver-config-transaction-timeout: "72000s"
-                  queryserver-config-query-timeout: "30000s"
                 resources:
                   limits:
                     memory: 256Mi
