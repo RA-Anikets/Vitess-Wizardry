@@ -11,6 +11,7 @@ VTADMIN_API_PORT="${VTADMIN_API_PORT:-15001}"
 VTGATE_PORT="${VTGATE_PORT:-15306}"
 VTCTLD_WEB_PORT="${VTCTLD_WEB_PORT:-14002}"
 VTCTLD_GRPC_PORT="${VTCTLD_GRPC_PORT:-15999}"
+ETCD_GRPC_PORT="${ETCD_GRPC_PORT:-2379}"
 
 # Colors for output
 RED='\033[0;31m'
@@ -46,6 +47,7 @@ discover_services() {
     VTADMIN_SVC=$(kubectl -n "$NAMESPACE" get svc -o name | grep vtadmin | head -1 | cut -d/ -f2)
     VTGATE_SVC=$(kubectl -n "$NAMESPACE" get svc -o name | grep zone1-vtgate | head -1 | cut -d/ -f2)
     VTCTLD_SVC=$(kubectl -n "$NAMESPACE" get svc -o name | grep vtctld | head -1 | cut -d/ -f2)
+    ETCD_SVC=$(kubectl -n "$NAMESPACE" get svc -o name | grep etcd | head -1 | cut -d/ -f2)
     
     if [ -z "$VTADMIN_SVC" ]; then
         print_error "VTAdmin service not found in namespace '$NAMESPACE'"
@@ -59,11 +61,16 @@ discover_services() {
     if [ -z "$VTCTLD_SVC" ]; then
         print_warn "VTCTLD service not found in namespace '$NAMESPACE'"
     fi
+
+    if [ -z "$ETCD_SVC" ]; then
+        print_warn "ETCD service not found in namespace '$NAMESPACE'"
+    fi
     
     print_info "Found services:"
     [ -n "$VTADMIN_SVC" ] && echo "  - VTAdmin: $VTADMIN_SVC"
     [ -n "$VTGATE_SVC" ] && echo "  - VTGate: $VTGATE_SVC"
     [ -n "$VTCTLD_SVC" ] && echo "  - VTCTLD: $VTCTLD_SVC"
+    [ -n "$ETCD_SVC" ] && echo "  - ETCD: $ETCD_SVC"
 }
 
 # Function to check if port is already in use
@@ -110,7 +117,7 @@ start_port_forward() {
 stop_port_forwards() {
     print_info "Stopping all port-forwards..."
     
-    for name in vtadmin-web vtadmin-api vtgate vtctld-web vtctld-grpc; do
+    for name in vtadmin-web vtadmin-api vtgate vtctld-web vtctld-grpc etcd-grpc; do
         if [ -f "/tmp/vitess-pf-$name.pid" ]; then
             local pid=$(cat /tmp/vitess-pf-$name.pid)
             if ps -p $pid > /dev/null 2>&1; then
@@ -151,6 +158,7 @@ show_connection_info() {
     [ -n "$VTGATE_SVC" ] && echo "  VTGate MySQL:       mysql -h 127.0.0.1 -P $VTGATE_PORT -u user1 -ppassword1"
     [ -n "$VTCTLD_SVC" ] && echo "  VTCTLD Web UI:      http://localhost:$VTCTLD_WEB_PORT"
     [ -n "$VTCTLD_SVC" ] && echo "  VTCTLD gRPC:        localhost:$VTCTLD_GRPC_PORT"
+    [ -n "$ETCD_SVC" ] && echo "  ETCD gRPC:        localhost:$ETCD_GRPC_PORT"
     echo ""
     print_info "Logs are stored in /tmp/vitess-pf-*.log"
     print_info "PID files are stored in /tmp/vitess-pf-*.pid"
@@ -181,6 +189,10 @@ main() {
                 start_port_forward "$VTCTLD_SVC" "$VTCTLD_GRPC_PORT" "grpc" "vtctld-grpc"
             fi
             
+            if [ -n "$VTCTLD_SVC" ]; then
+                start_port_forward "$ETCD_SVC" "$ETCD_GRPC_PORT" "2379" "etcd-grpc"
+            fi
+
             show_connection_info
             print_info "Port-forwards are running in the background."
             print_info "Use '$0 stop' to stop them or '$0 status' to check status."
@@ -216,6 +228,7 @@ main() {
             echo "  VTGATE_PORT         - VTGate MySQL port (default: 15306)"
             echo "  VTCTLD_WEB_PORT     - VTCTLD web UI port (default: 15002)"
             echo "  VTCTLD_GRPC_PORT    - VTCTLD gRPC port (default: 15999)"
+            echo "  ETCD_GRPC_PORT      - ETCD gRPC port (default: 2379)"
             exit 1
             ;;
     esac
