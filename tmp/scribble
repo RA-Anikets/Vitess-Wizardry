@@ -1,0 +1,58 @@
+vttablet \
+ --topo_implementation etcd2 \
+ --topo_global_server_address localhost:2379 \
+ --topo_global_root /vitess/cmms-vitess-cluster/global \
+ --logtostderr \
+ --tablet-path "zone1-0000000401" \
+ --tablet_hostname 192.168.6.107 \
+ --init_keyspace schShared \
+ --init_shard 0 \
+ --init_tablet_type replica \
+ --port 15401 \
+ --grpc_port 16401 \
+ --service_map 'grpc-queryservice,grpc-tabletmanager,grpc-updatestream' \
+ --pid_file /tmp/vt_0000000401/vttablet.pid \
+ --db_host 127.0.0.1 \
+ --db_port 3306 \
+ --db_app_user vt_dba \
+ --db_app_password pass \
+ --db_dba_user vt_dba \
+ --db_dba_password pass \
+ --db_repl_user vt_dba \
+ --db_repl_password pass \
+ --db_filtered_user vt_dba \
+ --db_filtered_password pass \
+ --db_allprivs_user vt_dba \
+ --db_allprivs_password pass \
+ --init_db_name_override schShared \
+ --unmanaged
+
+--Lookups to work on
+TokenEntry
+tblTenantDeleteTableNames
+tblEmailAddressSmtpEvent
+tblPlanFeatureProductTier
+tblPricingTierFeature
+tblResourceConsumer
+tblTenantRelationship
+tblWork
+
+
+
+VTCTLD_POD=$(kubectl -n cmms get pods -o name | grep vtctld | head -1 | cut -d/ -f2)
+
+kubectl -n cmms exec -i "$VTCTLD_POD" -- \
+  vtctldclient --server localhost:15999 ApplyRoutingRules \
+  --rules-file /dev/stdin < routing_rules.json
+
+ kubectl -n cmms exec -i "$VTCTLD_POD" -- \
+  vtctldclient --server localhost:15999 ApplyVSchema \
+  --vschema-file /dev/stdin schShared < schShared_vschema.json
+
+  kubectl -n cmms exec -i "$VTCTLD_POD" -- \                                           
+  vtctldclient --server localhost:15999 RebuildVSchemaGraph
+
+vtctldclient --server localhost:15999 MoveTables --workflow schShared2schSharedLookup --target-keyspace schSharedLookup create --source-keyspace schShared --tables "JGROUPSPING,QRTZ_BLOB_TRIGGERS,QRTZ_CALENDARS,QRTZ_CRON_TRIGGERS,QRTZ_FIRED_TRIGGERS,QRTZ_JOB_DETAILS,QRTZ_LOCKS,QRTZ_PAUSED_TRIGGER_GRPS,QRTZ_SCHEDULER_STATE,QRTZ_SIMPLE_TRIGGERS,QRTZ_SIMPROP_TRIGGERS,QRTZ_TRIGGERS,tblAccountAddressType,tblAccountLogStatus,tblAccountLogType,tblActivityLogStatus,tblActivityLogType,tblAddressGeocode,tblAffiliateProgram,tblApiConsumerType,tblAppWindow,tblApplication,tblAssetPropertyType,tblAssetStatus,tblAssetUserType,tblBarcodeFormatType,tblBillingTaxes,tblBillingType,tblBorgSetting,tblBusinessClassification,tblBusinessRoleType,tblBusinessTypeDef,tblCohort,tblCountry,tblCrmMetricsSettings,tblCrmMetricsType,tblCrmMetricsTypeFormat,tblCrmMetricsUser,tblCurrency,tblDashboardWidgetCategory,tblDdColumnType,tblDdTableType,tblDistributionBillingPlan,tblEmailAddress,tblEmailAddressStatus,tblEpicFeatureNoticePricingTier,tblExternalJobStatus,tblFeature,tblFeatureCategory,tblFeatureNoticeFilter,tblFeatureValueOverageControlType,tblFeatureValuePeriodType,tblFeatureValueType,tblGHGCalcCarbonMarket,tblGHGCalcFuel,tblGHGCalcGWP,tblGHGCalcLocation,tblGHGCalcResource,tblGHGCalcVehicle,tblIdGen,tblIntegrationActionAdvancedEndpoint,tblIntegrationActionType,tblIntegrationEndpointFormat,tblIntegrationParameterType,tblIntegrationProtocol,tblIntegrationSystem,tblIntegrationTemplate,tblIsoWeekCalendar,tblLanguage,tblLeadState,tblLocalizationType,tblLogCostType,tblLogType,tblMarketingProgram,tblMessageFolder,tblMilestone,tblMilestonesResetThreshold,tblPTTxnThroughput,tblPassword,tblPasswordStorageVersion,tblPaymentMethod,tblPermission,tblPlanFeature,tblPlanFeatureCategory,tblPlatformEventType,tblPricingTier,tblProduct,tblProductDiscountControl,tblProductOffering,tblProductOfferingFeature,tblProductTier,tblProductUnit,tblPromotionalOffer,tblPromotionalOfferDetail,tblPromotionalOfferPricingTier,tblQuoteStatus,tblRateLimiterType,tblRecurringType,tblReportCategory,tblReportHistory,tblReportType,tblResourceConsumerType,tblResourceNamespace,tblResourceService,tblResourceType,tblRunCommandHistory,tblSSOProvider,tblSalespersonType,tblScheduledJob,tblScheduledJobMonitor,tblSkin,tblSmtpEvent,tblSmtpEventType,tblSubscriptionStatus,tblTenant,tblTenantAutomation,tblTenantNotification,tblTenantNotificationPricingTier,tblTenantOrderType,tblTenantRelationshipType,tblTenantStatus,tblTenantType,tblTheThrowable,tblV4Tenant,tblWarrantyType,tblWarrantyUsageTermType,tblWorkflowActivityType,tblWorkflowActivityTypeGroup,tblWorkflowTriggerType,tblWorkflowTriggerTypeGroup,tblYeMo"
+
+vtctldclient MoveTables --server localhost:15999 --workflow schShared2schSharedLookup --target-keyspace schSharedLookup switchtraffic --tablet-types "rdonly,replica"
+vtctldclient MoveTables --server localhost:15999 --workflow schShared2schSharedLookup --target-keyspace schSharedLookup switchtraffic --tablet-types "primary"

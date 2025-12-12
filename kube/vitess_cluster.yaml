@@ -96,6 +96,58 @@ spec:
               replicas: 2
               vttablet:
                 extraFlags:
+                  enforce_strict_trans_tables: "false"
+                  init_db_name_override: schShared
+                  queryserver-config-transaction-timeout: "72000s"
+                  queryserver-config-query-timeout: "30000s"
+                  db_charset: utf8mb4
+                resources:
+                  limits:
+                    memory: 256Mi
+                  requests:
+                    cpu: 100m
+                    memory: 256Mi
+              mysqld:
+                resources:
+                  limits:
+                    memory: 1024Mi
+                  requests:
+                    cpu: 100m
+                    memory: 512Mi
+              dataVolumeClaimTemplate:
+                accessModes: ["ReadWriteOnce"]
+                resources:
+                  requests:
+                    storage: 10Gi
+    - name: schSharedLookup
+      durabilityPolicy: none
+      turndownPolicy: Immediate
+      vitessOrchestrator:
+        resources:
+          limits:
+            memory: 128Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+        extraFlags:
+          instance-poll-time: 1s
+      partitionings:
+      - equal:
+          parts: 1
+          shardTemplate:
+            databaseInitScriptSecret:
+              name: cmms-config
+              key: init_db.sql
+            tabletPools:
+            - cell: zone1
+              type: replica
+              replicas: 2
+              vttablet:
+                extraFlags:
+                  enforce_strict_trans_tables: "false"
+                  init_db_name_override: schSharedLookup # to be removed if issue persists
+                  queryserver-config-transaction-timeout: "72000s"
+                  queryserver-config-query-timeout: "30000s"
                   db_charset: utf8mb4
                 resources:
                   limits:
