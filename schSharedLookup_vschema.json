@@ -1,63 +1,6 @@
 {
   "sharded": false,
-  "vindexes": {
-    "tenant_lkp": {
-      "type": "lookup_hash_unique",
-      "params": {
-        "table": "tblTenant_lkp",
-        "from": "intTenantID",
-        "to": "id"
-      },
-      "owner": ""
-    },
-    "resource_consumer_tenant_lkp": {
-      "type": "lookup_hash_unique",
-      "params": {
-        "table": "tblResourceConsumer_lkp_resourceTenant",
-        "from": "intResourceID",
-        "to": "intTenantID"
-      },
-      "owner": ""
-    },
-    "tenant_slave_lookup": {
-      "type": "lookup_hash_unique",
-      "params": {
-        "table": "tblTenantRelationship_lkp_slaveTenant",
-        "from": "intSlaveTenantID",
-        "to": "id"
-      },
-      "owner": ""
-    },
-    "client_session_tenant_lkp": {
-      "type": "lookup_hash_unique",
-      "params": {
-        "table": "tblWork_lookup_clientSessionTenant",
-        "from": "intClientSessionID",
-        "to": "intTenantID"
-      },
-      "owner": "tblWork_lookup_clientSessionTenant"
-    }
-  },
   "tables": {
-    "tblPlanFeatureProductTier": {},
-    "tblResourceConsumer_lkp_resourceTenant": {
-      "column_vindexes": [
-        {
-          "column": "intResourceID",
-          "name": "resource_consumer_tenant_lkp"
-        }
-      ]
-    },
-    "tblTenant": {},
-    "tblTenant_lkp": {},
-    "tblTenantRelationship_lkp_slaveTenant": {
-      "column_vindexes": [
-        {
-          "column": "intSlaveTenantID",
-          "name": "tenant_slave_lookup"
-        }
-      ]
-    },
     "JGROUPSPING": {},
     "QRTZ_BLOB_TRIGGERS": {},
     "QRTZ_CALENDARS": {},
@@ -91,25 +34,39 @@
     "tblBusinessClassification": {},
     "tblBusinessRoleType": {},
     "tblBusinessTypeDef": {},
+    "tblClientSession": {},
     "tblCohort": {},
     "tblCountry": {},
+    "tblCrmMetrics": {},
     "tblCrmMetricsSettings": {},
     "tblCrmMetricsType": {},
     "tblCrmMetricsTypeFormat": {},
     "tblCrmMetricsUser": {},
     "tblCurrency": {},
+    "tblDashboard": {},
+    "tblDashboardDashboardPersona": {},
+    "tblDashboardFeatureNotice": {},
+    "tblDashboardPersona": {},
+    "tblDashboardWidget": {},
     "tblDashboardWidgetCategory": {},
+    "tblDashboardWidgetDashboardPersona": {},
+    "tblDashboardWidgetParameter": {},
+    "tblDashboardWidgetQuery": {},
+    "tblDdColumn": {},
     "tblDdColumnType": {},
+    "tblDdTable": {},
     "tblDdTableType": {},
     "tblDistributionBillingPlan": {},
     "tblEmailAddress": {},
     "tblEmailAddressSmtpEvent": {},
     "tblEmailAddressStatus": {},
+    "tblEpicFeatureNotice": {},
     "tblEpicFeatureNoticePricingTier": {},
     "tblExternalJobStatus": {},
     "tblFeature": {},
     "tblFeatureCategory": {},
     "tblFeatureNoticeFilter": {},
+    "tblFeatureProperty": {},
     "tblFeatureValueOverageControlType": {},
     "tblFeatureValuePeriodType": {},
     "tblFeatureValueType": {},
@@ -130,6 +87,8 @@
     "tblIsoWeekCalendar": {},
     "tblLanguage": {},
     "tblLeadState": {},
+    "tblLocalization": {},
+    "tblLocalizationArchive": {},
     "tblLocalizationType": {},
     "tblLogCostType": {},
     "tblLogType": {},
@@ -144,6 +103,7 @@
     "tblPermission": {},
     "tblPlanFeature": {},
     "tblPlanFeatureCategory": {},
+    "tblPlanFeatureProductTier": {},
     "tblPlatformEventType": {},
     "tblPricingTier": {},
     "tblPricingTierFeature": {},
@@ -159,9 +119,12 @@
     "tblQuoteStatus": {},
     "tblRateLimiterType": {},
     "tblRecurringType": {},
+    "tblRemoteEntityIdMapping": {},
     "tblReportCategory": {},
     "tblReportHistory": {},
+    "tblReportTemplate": {},
     "tblReportType": {},
+    "tblResource": {},
     "tblResourceConsumer": {},
     "tblResourceConsumerType": {},
     "tblResourceNamespace": {},
@@ -175,17 +138,23 @@
     "tblSkin": {},
     "tblSmtpEvent": {},
     "tblSmtpEventType": {},
+    "tblSmtpProvider": {},
+    "tblStockTxType": {},
     "tblSubscriptionStatus": {},
+    "tblTenant": {},
     "tblTenantAutomation": {},
     "tblTenantDeleteTableNames": {},
     "tblTenantNotification": {},
     "tblTenantNotificationPricingTier": {},
     "tblTenantOrderType": {},
+    "tblTenantPurgeRecordCount": {},
     "tblTenantRelationship": {},
     "tblTenantRelationshipType": {},
     "tblTenantStatus": {},
     "tblTenantType": {},
     "tblTheThrowable": {},
+    "tblTheThrowableReported": {},
+    "tblUsageLog": {},
     "tblV4Tenant": {},
     "tblWarrantyType": {},
     "tblWarrantyUsageTermType": {},
