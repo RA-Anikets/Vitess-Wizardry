@@ -1,18 +1,6 @@
 {
     "rules": [
         {
-            "from_table": "schShared.tblTenant_lkp",
-            "to_tables": [
-                "schSharedLookup.tblTenant_lkp"
-            ]
-        },
-        {
-            "from_table": "tblTenant_lkp",
-            "to_tables": [
-                "schSharedLookup.tblTenant_lkp"
-            ]
-        },
-        {
             "from_table": "tblTenant",
             "to_tables": [
                 "schSharedLookup.tblTenant"
@@ -1426,12 +1414,6 @@
             "from_table": "tblActivityLogStatus@replica",
             "to_tables": [
                 "schSharedLookup.tblActivityLogStatus"
-            ]
-        },
-        {
-            "from_table": "tblTenant",
-            "to_tables": [
-                "schSharedLookup.tblTenant"
             ]
         },
         {
@@ -6406,6 +6388,1440 @@
             "from_table": "tblFeatureValueOverageControlType@rdonly",
             "to_tables": [
                 "schSharedLookup.tblFeatureValueOverageControlType"
+            ]
+        },
+        {
+            "from_table": "schShared.tblResourceConsumer",
+            "to_tables": [
+                "schSharedLookup.tblResourceConsumer"
+            ]
+        },
+        {
+            "from_table": "schSharedLookup.tblDashboard@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblDashboard"
+            ]
+        },
+        {
+            "from_table": "tblDdColumn@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblDdColumn"
+            ]
+        },
+        {
+            "from_table": "tblPricingTierFeature@replica",
+            "to_tables": [
+                "schSharedLookup.tblPricingTierFeature"
+            ]
+        },
+        {
+            "from_table": "schSharedLookup.tblRemoteEntityIdMapping@replica",
+            "to_tables": [
+                "schSharedLookup.tblRemoteEntityIdMapping"
+            ]
+        },
+        {
+            "from_table": "schSharedLookup.tblRemoteEntityIdMapping@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblRemoteEntityIdMapping"
+            ]
+        },
+        {
+            "from_table": "schShared.tblSmtpProvider@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblSmtpProvider"
+            ]
+        },
+        {
+            "from_table": "schSharedLookup.tblStockTxType@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblStockTxType"
+            ]
+        },
+        {
+            "from_table": "schShared.tblLocalization@replica",
+            "to_tables": [
+                "schSharedLookup.tblLocalization"
+            ]
+        },
+        {
+            "from_table": "schShared.tblDashboard@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblDashboard"
+            ]
+        },
+        {
+            "from_table": "tblStockTxType@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblStockTxType"
+            ]
+        },
+        {
+            "from_table": "schShared.tblReportTemplate@replica",
+            "to_tables": [
+                "schSharedLookup.tblReportTemplate"
+            ]
+        },
+        {
+            "from_table": "tblTenantRelationship@replica",
+            "to_tables": [
+                "schSharedLookup.tblTenantRelationship"
+            ]
+        },
+        {
+            "from_table": "tblLocalization",
+            "to_tables": [
+                "schSharedLookup.tblLocalization"
+            ]
+        },
+        {
+            "from_table": "schShared.tblWork",
+            "to_tables": [
+                "schSharedLookup.tblWork"
+            ]
+        },
+        {
+            "from_table": "schSharedLookup.tblPricingTierFeature@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblPricingTierFeature"
+            ]
+        },
+        {
+            "from_table": "schShared.tblRemoteEntityIdMapping",
+            "to_tables": [
+                "schSharedLookup.tblRemoteEntityIdMapping"
+            ]
+        },
+        {
+            "from_table": "schSharedLookup.tblDashboardWidgetParameter@replica",
+            "to_tables": [
+                "schSharedLookup.tblDashboardWidgetParameter"
+            ]
+        },
+        {
+            "from_table": "tblClientSession@replica",
+            "to_tables": [
+                "schSharedLookup.tblClientSession"
+            ]
+        },
+        {
+            "from_table": "schSharedLookup.tblTenantRelationship@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblTenantRelationship"
+            ]
+        },
+        {
+            "from_table": "schShared.tblDashboardWidget@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblDashboardWidget"
+            ]
+        },
+        {
+            "from_table": "schSharedLookup.tblLocalization@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblLocalization"
+            ]
+        },
+        {
+            "from_table": "schShared.tblFeatureProperty@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblFeatureProperty"
+            ]
+        },
+        {
+            "from_table": "tblDashboard@replica",
+            "to_tables": [
+                "schSharedLookup.tblDashboard"
+            ]
+        },
+        {
+            "from_table": "tblDashboardWidgetQuery@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblDashboardWidgetQuery"
+            ]
+        },
+        {
+            "from_table": "schSharedLookup.tblDashboardFeatureNotice@replica",
+            "to_tables": [
+                "schSharedLookup.tblDashboardFeatureNotice"
+            ]
+        },
+        {
+            "from_table": "schSharedLookup.tblClientSession@replica",
+            "to_tables": [
+                "schSharedLookup.tblClientSession"
+            ]
+        },
+        {
+            "from_table": "tblLocalizationArchive@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblLocalizationArchive"
+            ]
+        },
+        {
+            "from_table": "schShared.tblDashboard@replica",
+            "to_tables": [
+                "schSharedLookup.tblDashboard"
+            ]
+        },
+        {
+            "from_table": "schSharedLookup.tblDashboard@replica",
+            "to_tables": [
+                "schSharedLookup.tblDashboard"
+            ]
+        },
+        {
+            "from_table": "tblDashboardPersona@replica",
+            "to_tables": [
+                "schSharedLookup.tblDashboardPersona"
+            ]
+        },
+        {
+            "from_table": "tblDdTable@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblDdTable"
+            ]
+        },
+        {
+            "from_table": "tblFeatureProperty",
+            "to_tables": [
+                "schSharedLookup.tblFeatureProperty"
+            ]
+        },
+        {
+            "from_table": "schShared.tblDdColumn",
+            "to_tables": [
+                "schSharedLookup.tblDdColumn"
+            ]
+        },
+        {
+            "from_table": "schSharedLookup.tblReportTemplate@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblReportTemplate"
+            ]
+        },
+        {
+            "from_table": "tblTenantRelationship",
+            "to_tables": [
+                "schSharedLookup.tblTenantRelationship"
+            ]
+        },
+        {
+            "from_table": "schSharedLookup.tblDashboardWidgetQuery@replica",
+            "to_tables": [
+                "schSharedLookup.tblDashboardWidgetQuery"
+            ]
+        },
+        {
+            "from_table": "schSharedLookup.tblTenantRelationship@replica",
+            "to_tables": [
+                "schSharedLookup.tblTenantRelationship"
+            ]
+        },
+        {
+            "from_table": "tblResourceConsumer",
+            "to_tables": [
+                "schSharedLookup.tblResourceConsumer"
+            ]
+        },
+        {
+            "from_table": "tblResourceConsumer@replica",
+            "to_tables": [
+                "schSharedLookup.tblResourceConsumer"
+            ]
+        },
+        {
+            "from_table": "tblDashboardDashboardPersona@replica",
+            "to_tables": [
+                "schSharedLookup.tblDashboardDashboardPersona"
+            ]
+        },
+        {
+            "from_table": "tblSmtpProvider",
+            "to_tables": [
+                "schSharedLookup.tblSmtpProvider"
+            ]
+        },
+        {
+            "from_table": "schSharedLookup.tblFeatureProperty@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblFeatureProperty"
+            ]
+        },
+        {
+            "from_table": "tblFeatureProperty@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblFeatureProperty"
+            ]
+        },
+        {
+            "from_table": "schShared.tblLocalizationArchive@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblLocalizationArchive"
+            ]
+        },
+        {
+            "from_table": "schSharedLookup.tblDashboardWidget@replica",
+            "to_tables": [
+                "schSharedLookup.tblDashboardWidget"
+            ]
+        },
+        {
+            "from_table": "tblEmailAddressSmtpEvent",
+            "to_tables": [
+                "schSharedLookup.tblEmailAddressSmtpEvent"
+            ]
+        },
+        {
+            "from_table": "schSharedLookup.tblPricingTierFeature@replica",
+            "to_tables": [
+                "schSharedLookup.tblPricingTierFeature"
+            ]
+        },
+        {
+            "from_table": "schShared.tblFeatureProperty@replica",
+            "to_tables": [
+                "schSharedLookup.tblFeatureProperty"
+            ]
+        },
+        {
+            "from_table": "schShared.tblEmailAddressSmtpEvent@replica",
+            "to_tables": [
+                "schSharedLookup.tblEmailAddressSmtpEvent"
+            ]
+        },
+        {
+            "from_table": "tblReportTemplate@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblReportTemplate"
+            ]
+        },
+        {
+            "from_table": "tblWork",
+            "to_tables": [
+                "schSharedLookup.tblWork"
+            ]
+        },
+        {
+            "from_table": "schShared.tblDashboardFeatureNotice",
+            "to_tables": [
+                "schSharedLookup.tblDashboardFeatureNotice"
+            ]
+        },
+        {
+            "from_table": "schShared.tblStockTxType@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblStockTxType"
+            ]
+        },
+        {
+            "from_table": "schSharedLookup.tblTenantPurgeRecordCount@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblTenantPurgeRecordCount"
+            ]
+        },
+        {
+            "from_table": "schShared.tblTenantRelationship",
+            "to_tables": [
+                "schSharedLookup.tblTenantRelationship"
+            ]
+        },
+        {
+            "from_table": "schShared.tblTenantRelationship@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblTenantRelationship"
+            ]
+        },
+        {
+            "from_table": "tblDashboardWidget@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblDashboardWidget"
+            ]
+        },
+        {
+            "from_table": "schShared.tblDashboardWidgetQuery@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblDashboardWidgetQuery"
+            ]
+        },
+        {
+            "from_table": "schSharedLookup.tblDashboardWidgetParameter@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblDashboardWidgetParameter"
+            ]
+        },
+        {
+            "from_table": "schShared.tblDashboardWidget@replica",
+            "to_tables": [
+                "schSharedLookup.tblDashboardWidget"
+            ]
+        },
+        {
+            "from_table": "schShared.tblUsageLog",
+            "to_tables": [
+                "schSharedLookup.tblUsageLog"
+            ]
+        },
+        {
+            "from_table": "schShared.tblReportTemplate",
+            "to_tables": [
+                "schSharedLookup.tblReportTemplate"
+            ]
+        },
+        {
+            "from_table": "schShared.tblSmtpProvider",
+            "to_tables": [
+                "schSharedLookup.tblSmtpProvider"
+            ]
+        },
+        {
+            "from_table": "tblLocalizationArchive",
+            "to_tables": [
+                "schSharedLookup.tblLocalizationArchive"
+            ]
+        },
+        {
+            "from_table": "tblResource",
+            "to_tables": [
+                "schSharedLookup.tblResource"
+            ]
+        },
+        {
+            "from_table": "tblUsageLog@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblUsageLog"
+            ]
+        },
+        {
+            "from_table": "tblClientSession@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblClientSession"
+            ]
+        },
+        {
+            "from_table": "tblTenantPurgeRecordCount@replica",
+            "to_tables": [
+                "schSharedLookup.tblTenantPurgeRecordCount"
+            ]
+        },
+        {
+            "from_table": "tblDashboard@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblDashboard"
+            ]
+        },
+        {
+            "from_table": "tblUsageLog",
+            "to_tables": [
+                "schSharedLookup.tblUsageLog"
+            ]
+        },
+        {
+            "from_table": "schSharedLookup.tblDdColumn@replica",
+            "to_tables": [
+                "schSharedLookup.tblDdColumn"
+            ]
+        },
+        {
+            "from_table": "schShared.tblPlanFeatureProductTier@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblPlanFeatureProductTier"
+            ]
+        },
+        {
+            "from_table": "schShared.tblStockTxType",
+            "to_tables": [
+                "schSharedLookup.tblStockTxType"
+            ]
+        },
+        {
+            "from_table": "tblSmtpProvider@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblSmtpProvider"
+            ]
+        },
+        {
+            "from_table": "schShared.tblDashboardWidgetQuery",
+            "to_tables": [
+                "schSharedLookup.tblDashboardWidgetQuery"
+            ]
+        },
+        {
+            "from_table": "schShared.tblDdTable@replica",
+            "to_tables": [
+                "schSharedLookup.tblDdTable"
+            ]
+        },
+        {
+            "from_table": "schShared.tblLocalizationArchive@replica",
+            "to_tables": [
+                "schSharedLookup.tblLocalizationArchive"
+            ]
+        },
+        {
+            "from_table": "schSharedLookup.tblDdTable@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblDdTable"
+            ]
+        },
+        {
+            "from_table": "schSharedLookup.tblWork@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblWork"
+            ]
+        },
+        {
+            "from_table": "schShared.tblClientSession@replica",
+            "to_tables": [
+                "schSharedLookup.tblClientSession"
+            ]
+        },
+        {
+            "from_table": "schShared.tblUsageLog@replica",
+            "to_tables": [
+                "schSharedLookup.tblUsageLog"
+            ]
+        },
+        {
+            "from_table": "tblDashboardWidgetParameter@replica",
+            "to_tables": [
+                "schSharedLookup.tblDashboardWidgetParameter"
+            ]
+        },
+        {
+            "from_table": "schSharedLookup.tblStockTxType@replica",
+            "to_tables": [
+                "schSharedLookup.tblStockTxType"
+            ]
+        },
+        {
+            "from_table": "schSharedLookup.tblUsageLog@replica",
+            "to_tables": [
+                "schSharedLookup.tblUsageLog"
+            ]
+        },
+        {
+            "from_table": "schSharedLookup.tblFeatureProperty@replica",
+            "to_tables": [
+                "schSharedLookup.tblFeatureProperty"
+            ]
+        },
+        {
+            "from_table": "tblReportTemplate@replica",
+            "to_tables": [
+                "schSharedLookup.tblReportTemplate"
+            ]
+        },
+        {
+            "from_table": "schShared.tblTheThrowableReported",
+            "to_tables": [
+                "schSharedLookup.tblTheThrowableReported"
+            ]
+        },
+        {
+            "from_table": "schSharedLookup.tblDashboardDashboardPersona@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblDashboardDashboardPersona"
+            ]
+        },
+        {
+            "from_table": "schSharedLookup.tblUsageLog@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblUsageLog"
+            ]
+        },
+        {
+            "from_table": "tblDashboardFeatureNotice@replica",
+            "to_tables": [
+                "schSharedLookup.tblDashboardFeatureNotice"
+            ]
+        },
+        {
+            "from_table": "schShared.tblPlanFeatureProductTier@replica",
+            "to_tables": [
+                "schSharedLookup.tblPlanFeatureProductTier"
+            ]
+        },
+        {
+            "from_table": "tblClientSession",
+            "to_tables": [
+                "schSharedLookup.tblClientSession"
+            ]
+        },
+        {
+            "from_table": "tblPlanFeatureProductTier",
+            "to_tables": [
+                "schSharedLookup.tblPlanFeatureProductTier"
+            ]
+        },
+        {
+            "from_table": "schShared.tblDashboardWidgetDashboardPersona",
+            "to_tables": [
+                "schSharedLookup.tblDashboardWidgetDashboardPersona"
+            ]
+        },
+        {
+            "from_table": "tblLocalizationArchive@replica",
+            "to_tables": [
+                "schSharedLookup.tblLocalizationArchive"
+            ]
+        },
+        {
+            "from_table": "tblDashboardDashboardPersona@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblDashboardDashboardPersona"
+            ]
+        },
+        {
+            "from_table": "schShared.tblDashboardDashboardPersona@replica",
+            "to_tables": [
+                "schSharedLookup.tblDashboardDashboardPersona"
+            ]
+        },
+        {
+            "from_table": "schSharedLookup.tblDashboardWidget@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblDashboardWidget"
+            ]
+        },
+        {
+            "from_table": "schShared.tblCrmMetrics",
+            "to_tables": [
+                "schSharedLookup.tblCrmMetrics"
+            ]
+        },
+        {
+            "from_table": "schShared.tblClientSession@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblClientSession"
+            ]
+        },
+        {
+            "from_table": "schShared.tblDdColumn@replica",
+            "to_tables": [
+                "schSharedLookup.tblDdColumn"
+            ]
+        },
+        {
+            "from_table": "schSharedLookup.tblWork@replica",
+            "to_tables": [
+                "schSharedLookup.tblWork"
+            ]
+        },
+        {
+            "from_table": "schSharedLookup.tblLocalization@replica",
+            "to_tables": [
+                "schSharedLookup.tblLocalization"
+            ]
+        },
+        {
+            "from_table": "tblDashboardFeatureNotice",
+            "to_tables": [
+                "schSharedLookup.tblDashboardFeatureNotice"
+            ]
+        },
+        {
+            "from_table": "schShared.tblResourceConsumer@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblResourceConsumer"
+            ]
+        },
+        {
+            "from_table": "tblLocalization@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblLocalization"
+            ]
+        },
+        {
+            "from_table": "schSharedLookup.tblDdTable@replica",
+            "to_tables": [
+                "schSharedLookup.tblDdTable"
+            ]
+        },
+        {
+            "from_table": "schShared.tblDashboardWidgetDashboardPersona@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblDashboardWidgetDashboardPersona"
+            ]
+        },
+        {
+            "from_table": "tblRemoteEntityIdMapping",
+            "to_tables": [
+                "schSharedLookup.tblRemoteEntityIdMapping"
+            ]
+        },
+        {
+            "from_table": "schSharedLookup.tblSmtpProvider@replica",
+            "to_tables": [
+                "schSharedLookup.tblSmtpProvider"
+            ]
+        },
+        {
+            "from_table": "schSharedLookup.tblResource@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblResource"
+            ]
+        },
+        {
+            "from_table": "schSharedLookup.tblEmailAddressSmtpEvent@replica",
+            "to_tables": [
+                "schSharedLookup.tblEmailAddressSmtpEvent"
+            ]
+        },
+        {
+            "from_table": "schShared.tblDashboardWidgetParameter@replica",
+            "to_tables": [
+                "schSharedLookup.tblDashboardWidgetParameter"
+            ]
+        },
+        {
+            "from_table": "schSharedLookup.tblCrmMetrics@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblCrmMetrics"
+            ]
+        },
+        {
+            "from_table": "schSharedLookup.tblSmtpProvider@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblSmtpProvider"
+            ]
+        },
+        {
+            "from_table": "tblDashboardWidget",
+            "to_tables": [
+                "schSharedLookup.tblDashboardWidget"
+            ]
+        },
+        {
+            "from_table": "schShared.tblCrmMetrics@replica",
+            "to_tables": [
+                "schSharedLookup.tblCrmMetrics"
+            ]
+        },
+        {
+            "from_table": "tblDashboard",
+            "to_tables": [
+                "schSharedLookup.tblDashboard"
+            ]
+        },
+        {
+            "from_table": "schSharedLookup.tblDdColumn@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblDdColumn"
+            ]
+        },
+        {
+            "from_table": "schShared.tblRemoteEntityIdMapping@replica",
+            "to_tables": [
+                "schSharedLookup.tblRemoteEntityIdMapping"
+            ]
+        },
+        {
+            "from_table": "schSharedLookup.tblEmailAddressSmtpEvent@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblEmailAddressSmtpEvent"
+            ]
+        },
+        {
+            "from_table": "schShared.tblTenantPurgeRecordCount",
+            "to_tables": [
+                "schSharedLookup.tblTenantPurgeRecordCount"
+            ]
+        },
+        {
+            "from_table": "tblResource@replica",
+            "to_tables": [
+                "schSharedLookup.tblResource"
+            ]
+        },
+        {
+            "from_table": "schShared.tblSmtpProvider@replica",
+            "to_tables": [
+                "schSharedLookup.tblSmtpProvider"
+            ]
+        },
+        {
+            "from_table": "tblDdColumn@replica",
+            "to_tables": [
+                "schSharedLookup.tblDdColumn"
+            ]
+        },
+        {
+            "from_table": "schShared.tblFeatureProperty",
+            "to_tables": [
+                "schSharedLookup.tblFeatureProperty"
+            ]
+        },
+        {
+            "from_table": "tblStockTxType@replica",
+            "to_tables": [
+                "schSharedLookup.tblStockTxType"
+            ]
+        },
+        {
+            "from_table": "tblWork@replica",
+            "to_tables": [
+                "schSharedLookup.tblWork"
+            ]
+        },
+        {
+            "from_table": "tblEpicFeatureNotice",
+            "to_tables": [
+                "schSharedLookup.tblEpicFeatureNotice"
+            ]
+        },
+        {
+            "from_table": "schShared.tblLocalizationArchive",
+            "to_tables": [
+                "schSharedLookup.tblLocalizationArchive"
+            ]
+        },
+        {
+            "from_table": "schShared.tblDashboardPersona@replica",
+            "to_tables": [
+                "schSharedLookup.tblDashboardPersona"
+            ]
+        },
+        {
+            "from_table": "tblDashboardDashboardPersona",
+            "to_tables": [
+                "schSharedLookup.tblDashboardDashboardPersona"
+            ]
+        },
+        {
+            "from_table": "schSharedLookup.tblTheThrowableReported@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblTheThrowableReported"
+            ]
+        },
+        {
+            "from_table": "schShared.tblEpicFeatureNotice@replica",
+            "to_tables": [
+                "schSharedLookup.tblEpicFeatureNotice"
+            ]
+        },
+        {
+            "from_table": "schShared.tblPricingTierFeature",
+            "to_tables": [
+                "schSharedLookup.tblPricingTierFeature"
+            ]
+        },
+        {
+            "from_table": "tblDashboardWidgetQuery@replica",
+            "to_tables": [
+                "schSharedLookup.tblDashboardWidgetQuery"
+            ]
+        },
+        {
+            "from_table": "schShared.tblDashboardWidgetDashboardPersona@replica",
+            "to_tables": [
+                "schSharedLookup.tblDashboardWidgetDashboardPersona"
+            ]
+        },
+        {
+            "from_table": "schShared.tblDdTable@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblDdTable"
+            ]
+        },
+        {
+            "from_table": "tblDashboardWidget@replica",
+            "to_tables": [
+                "schSharedLookup.tblDashboardWidget"
+            ]
+        },
+        {
+            "from_table": "tblDdTable",
+            "to_tables": [
+                "schSharedLookup.tblDdTable"
+            ]
+        },
+        {
+            "from_table": "schSharedLookup.tblEpicFeatureNotice@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblEpicFeatureNotice"
+            ]
+        },
+        {
+            "from_table": "tblPricingTierFeature",
+            "to_tables": [
+                "schSharedLookup.tblPricingTierFeature"
+            ]
+        },
+        {
+            "from_table": "tblPlanFeatureProductTier@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblPlanFeatureProductTier"
+            ]
+        },
+        {
+            "from_table": "tblEmailAddressSmtpEvent@replica",
+            "to_tables": [
+                "schSharedLookup.tblEmailAddressSmtpEvent"
+            ]
+        },
+        {
+            "from_table": "tblCrmMetrics@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblCrmMetrics"
+            ]
+        },
+        {
+            "from_table": "schShared.tblEmailAddressSmtpEvent",
+            "to_tables": [
+                "schSharedLookup.tblEmailAddressSmtpEvent"
+            ]
+        },
+        {
+            "from_table": "schShared.tblCrmMetrics@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblCrmMetrics"
+            ]
+        },
+        {
+            "from_table": "schShared.tblPricingTierFeature@replica",
+            "to_tables": [
+                "schSharedLookup.tblPricingTierFeature"
+            ]
+        },
+        {
+            "from_table": "tblDashboardWidgetParameter",
+            "to_tables": [
+                "schSharedLookup.tblDashboardWidgetParameter"
+            ]
+        },
+        {
+            "from_table": "tblDashboardWidgetDashboardPersona@replica",
+            "to_tables": [
+                "schSharedLookup.tblDashboardWidgetDashboardPersona"
+            ]
+        },
+        {
+            "from_table": "tblPricingTierFeature@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblPricingTierFeature"
+            ]
+        },
+        {
+            "from_table": "tblTheThrowableReported@replica",
+            "to_tables": [
+                "schSharedLookup.tblTheThrowableReported"
+            ]
+        },
+        {
+            "from_table": "tblDashboardWidgetDashboardPersona",
+            "to_tables": [
+                "schSharedLookup.tblDashboardWidgetDashboardPersona"
+            ]
+        },
+        {
+            "from_table": "schShared.tblTenantPurgeRecordCount@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblTenantPurgeRecordCount"
+            ]
+        },
+        {
+            "from_table": "schShared.tblClientSession",
+            "to_tables": [
+                "schSharedLookup.tblClientSession"
+            ]
+        },
+        {
+            "from_table": "schSharedLookup.tblDashboardPersona@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblDashboardPersona"
+            ]
+        },
+        {
+            "from_table": "schShared.tblDashboard",
+            "to_tables": [
+                "schSharedLookup.tblDashboard"
+            ]
+        },
+        {
+            "from_table": "tblResourceConsumer@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblResourceConsumer"
+            ]
+        },
+        {
+            "from_table": "schSharedLookup.tblClientSession@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblClientSession"
+            ]
+        },
+        {
+            "from_table": "schShared.tblWork@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblWork"
+            ]
+        },
+        {
+            "from_table": "schSharedLookup.tblResourceConsumer@replica",
+            "to_tables": [
+                "schSharedLookup.tblResourceConsumer"
+            ]
+        },
+        {
+            "from_table": "tblLocalization@replica",
+            "to_tables": [
+                "schSharedLookup.tblLocalization"
+            ]
+        },
+        {
+            "from_table": "schSharedLookup.tblPlanFeatureProductTier@replica",
+            "to_tables": [
+                "schSharedLookup.tblPlanFeatureProductTier"
+            ]
+        },
+        {
+            "from_table": "schShared.tblDdTable",
+            "to_tables": [
+                "schSharedLookup.tblDdTable"
+            ]
+        },
+        {
+            "from_table": "schShared.tblPricingTierFeature@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblPricingTierFeature"
+            ]
+        },
+        {
+            "from_table": "schSharedLookup.tblTheThrowableReported@replica",
+            "to_tables": [
+                "schSharedLookup.tblTheThrowableReported"
+            ]
+        },
+        {
+            "from_table": "schShared.tblTenantPurgeRecordCount@replica",
+            "to_tables": [
+                "schSharedLookup.tblTenantPurgeRecordCount"
+            ]
+        },
+        {
+            "from_table": "schSharedLookup.tblDashboardWidgetDashboardPersona@replica",
+            "to_tables": [
+                "schSharedLookup.tblDashboardWidgetDashboardPersona"
+            ]
+        },
+        {
+            "from_table": "schSharedLookup.tblDashboardFeatureNotice@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblDashboardFeatureNotice"
+            ]
+        },
+        {
+            "from_table": "schShared.tblTheThrowableReported@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblTheThrowableReported"
+            ]
+        },
+        {
+            "from_table": "schSharedLookup.tblResourceConsumer@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblResourceConsumer"
+            ]
+        },
+        {
+            "from_table": "tblDashboardPersona",
+            "to_tables": [
+                "schSharedLookup.tblDashboardPersona"
+            ]
+        },
+        {
+            "from_table": "schSharedLookup.tblEpicFeatureNotice@replica",
+            "to_tables": [
+                "schSharedLookup.tblEpicFeatureNotice"
+            ]
+        },
+        {
+            "from_table": "tblEpicFeatureNotice@replica",
+            "to_tables": [
+                "schSharedLookup.tblEpicFeatureNotice"
+            ]
+        },
+        {
+            "from_table": "schShared.tblStockTxType@replica",
+            "to_tables": [
+                "schSharedLookup.tblStockTxType"
+            ]
+        },
+        {
+            "from_table": "schShared.tblDashboardWidgetParameter@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblDashboardWidgetParameter"
+            ]
+        },
+        {
+            "from_table": "tblResource@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblResource"
+            ]
+        },
+        {
+            "from_table": "tblTenantPurgeRecordCount",
+            "to_tables": [
+                "schSharedLookup.tblTenantPurgeRecordCount"
+            ]
+        },
+        {
+            "from_table": "tblDdTable@replica",
+            "to_tables": [
+                "schSharedLookup.tblDdTable"
+            ]
+        },
+        {
+            "from_table": "tblTenantPurgeRecordCount@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblTenantPurgeRecordCount"
+            ]
+        },
+        {
+            "from_table": "schShared.tblDashboardWidgetQuery@replica",
+            "to_tables": [
+                "schSharedLookup.tblDashboardWidgetQuery"
+            ]
+        },
+        {
+            "from_table": "schShared.tblEpicFeatureNotice@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblEpicFeatureNotice"
+            ]
+        },
+        {
+            "from_table": "schShared.tblDashboardWidgetParameter",
+            "to_tables": [
+                "schSharedLookup.tblDashboardWidgetParameter"
+            ]
+        },
+        {
+            "from_table": "tblFeatureProperty@replica",
+            "to_tables": [
+                "schSharedLookup.tblFeatureProperty"
+            ]
+        },
+        {
+            "from_table": "tblSmtpProvider@replica",
+            "to_tables": [
+                "schSharedLookup.tblSmtpProvider"
+            ]
+        },
+        {
+            "from_table": "tblDashboardPersona@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblDashboardPersona"
+            ]
+        },
+        {
+            "from_table": "tblDashboardWidgetDashboardPersona@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblDashboardWidgetDashboardPersona"
+            ]
+        },
+        {
+            "from_table": "schShared.tblEmailAddressSmtpEvent@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblEmailAddressSmtpEvent"
+            ]
+        },
+        {
+            "from_table": "schShared.tblDashboardDashboardPersona",
+            "to_tables": [
+                "schSharedLookup.tblDashboardDashboardPersona"
+            ]
+        },
+        {
+            "from_table": "schShared.tblDashboardPersona@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblDashboardPersona"
+            ]
+        },
+        {
+            "from_table": "schShared.tblDdColumn@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblDdColumn"
+            ]
+        },
+        {
+            "from_table": "tblRemoteEntityIdMapping@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblRemoteEntityIdMapping"
+            ]
+        },
+        {
+            "from_table": "tblEmailAddressSmtpEvent@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblEmailAddressSmtpEvent"
+            ]
+        },
+        {
+            "from_table": "schSharedLookup.tblCrmMetrics@replica",
+            "to_tables": [
+                "schSharedLookup.tblCrmMetrics"
+            ]
+        },
+        {
+            "from_table": "schShared.tblRemoteEntityIdMapping@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblRemoteEntityIdMapping"
+            ]
+        },
+        {
+            "from_table": "tblEpicFeatureNotice@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblEpicFeatureNotice"
+            ]
+        },
+        {
+            "from_table": "tblDashboardWidgetQuery",
+            "to_tables": [
+                "schSharedLookup.tblDashboardWidgetQuery"
+            ]
+        },
+        {
+            "from_table": "schSharedLookup.tblTenantPurgeRecordCount@replica",
+            "to_tables": [
+                "schSharedLookup.tblTenantPurgeRecordCount"
+            ]
+        },
+        {
+            "from_table": "tblTheThrowableReported@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblTheThrowableReported"
+            ]
+        },
+        {
+            "from_table": "schShared.tblWork@replica",
+            "to_tables": [
+                "schSharedLookup.tblWork"
+            ]
+        },
+        {
+            "from_table": "schShared.tblReportTemplate@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblReportTemplate"
+            ]
+        },
+        {
+            "from_table": "schSharedLookup.tblReportTemplate@replica",
+            "to_tables": [
+                "schSharedLookup.tblReportTemplate"
+            ]
+        },
+        {
+            "from_table": "schShared.tblTheThrowableReported@replica",
+            "to_tables": [
+                "schSharedLookup.tblTheThrowableReported"
+            ]
+        },
+        {
+            "from_table": "tblWork@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblWork"
+            ]
+        },
+        {
+            "from_table": "tblCrmMetrics",
+            "to_tables": [
+                "schSharedLookup.tblCrmMetrics"
+            ]
+        },
+        {
+            "from_table": "schSharedLookup.tblDashboardDashboardPersona@replica",
+            "to_tables": [
+                "schSharedLookup.tblDashboardDashboardPersona"
+            ]
+        },
+        {
+            "from_table": "schShared.tblDashboardFeatureNotice@replica",
+            "to_tables": [
+                "schSharedLookup.tblDashboardFeatureNotice"
+            ]
+        },
+        {
+            "from_table": "tblTheThrowableReported",
+            "to_tables": [
+                "schSharedLookup.tblTheThrowableReported"
+            ]
+        },
+        {
+            "from_table": "schShared.tblResource",
+            "to_tables": [
+                "schSharedLookup.tblResource"
+            ]
+        },
+        {
+            "from_table": "schShared.tblUsageLog@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblUsageLog"
+            ]
+        },
+        {
+            "from_table": "schShared.tblResource@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblResource"
+            ]
+        },
+        {
+            "from_table": "schShared.tblResource@replica",
+            "to_tables": [
+                "schSharedLookup.tblResource"
+            ]
+        },
+        {
+            "from_table": "schShared.tblDashboardFeatureNotice@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblDashboardFeatureNotice"
+            ]
+        },
+        {
+            "from_table": "tblCrmMetrics@replica",
+            "to_tables": [
+                "schSharedLookup.tblCrmMetrics"
+            ]
+        },
+        {
+            "from_table": "schShared.tblDashboardDashboardPersona@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblDashboardDashboardPersona"
+            ]
+        },
+        {
+            "from_table": "schShared.tblTenantRelationship@replica",
+            "to_tables": [
+                "schSharedLookup.tblTenantRelationship"
+            ]
+        },
+        {
+            "from_table": "schShared.tblEpicFeatureNotice",
+            "to_tables": [
+                "schSharedLookup.tblEpicFeatureNotice"
+            ]
+        },
+        {
+            "from_table": "tblStockTxType",
+            "to_tables": [
+                "schSharedLookup.tblStockTxType"
+            ]
+        },
+        {
+            "from_table": "schShared.tblResourceConsumer@replica",
+            "to_tables": [
+                "schSharedLookup.tblResourceConsumer"
+            ]
+        },
+        {
+            "from_table": "schSharedLookup.tblPlanFeatureProductTier@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblPlanFeatureProductTier"
+            ]
+        },
+        {
+            "from_table": "schShared.tblDashboardPersona",
+            "to_tables": [
+                "schSharedLookup.tblDashboardPersona"
+            ]
+        },
+        {
+            "from_table": "tblPlanFeatureProductTier@replica",
+            "to_tables": [
+                "schSharedLookup.tblPlanFeatureProductTier"
+            ]
+        },
+        {
+            "from_table": "tblTenantRelationship@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblTenantRelationship"
+            ]
+        },
+        {
+            "from_table": "schShared.tblDashboardWidget",
+            "to_tables": [
+                "schSharedLookup.tblDashboardWidget"
+            ]
+        },
+        {
+            "from_table": "schSharedLookup.tblDashboardWidgetDashboardPersona@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblDashboardWidgetDashboardPersona"
+            ]
+        },
+        {
+            "from_table": "tblUsageLog@replica",
+            "to_tables": [
+                "schSharedLookup.tblUsageLog"
+            ]
+        },
+        {
+            "from_table": "tblDashboardWidgetParameter@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblDashboardWidgetParameter"
+            ]
+        },
+        {
+            "from_table": "schSharedLookup.tblLocalizationArchive@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblLocalizationArchive"
+            ]
+        },
+        {
+            "from_table": "tblDdColumn",
+            "to_tables": [
+                "schSharedLookup.tblDdColumn"
+            ]
+        },
+        {
+            "from_table": "tblDashboardFeatureNotice@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblDashboardFeatureNotice"
+            ]
+        },
+        {
+            "from_table": "tblRemoteEntityIdMapping@replica",
+            "to_tables": [
+                "schSharedLookup.tblRemoteEntityIdMapping"
+            ]
+        },
+        {
+            "from_table": "schShared.tblLocalization@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblLocalization"
+            ]
+        },
+        {
+            "from_table": "schSharedLookup.tblDashboardPersona@replica",
+            "to_tables": [
+                "schSharedLookup.tblDashboardPersona"
+            ]
+        },
+        {
+            "from_table": "tblReportTemplate",
+            "to_tables": [
+                "schSharedLookup.tblReportTemplate"
+            ]
+        },
+        {
+            "from_table": "schSharedLookup.tblLocalizationArchive@replica",
+            "to_tables": [
+                "schSharedLookup.tblLocalizationArchive"
+            ]
+        },
+        {
+            "from_table": "schSharedLookup.tblDashboardWidgetQuery@rdonly",
+            "to_tables": [
+                "schSharedLookup.tblDashboardWidgetQuery"
+            ]
+        },
+        {
+            "from_table": "schSharedLookup.tblResource@replica",
+            "to_tables": [
+                "schSharedLookup.tblResource"
+            ]
+        },
+        {
+            "from_table": "schShared.tblLocalization",
+            "to_tables": [
+                "schSharedLookup.tblLocalization"
             ]
         }
     ]
