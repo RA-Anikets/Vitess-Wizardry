@@ -1,0 +1,7 @@
+1. got the data in one unsharded schShared keyspace. create schSharedLookup keyspace for moving lookup tables.
+2. we removed all the foreign keys.
+3. workflow move tables, switch traffic, mark complete when diff is null. no reverse workflow.
+4. applying vschema for both keyspaces.
+5. up 2-n shards
+6. run resharding workfrom from - to n shards.
+7. once done claim initial shard. -> DONE.

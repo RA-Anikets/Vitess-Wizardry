@@ -26,7 +26,8 @@ services:
     platform: linux/amd64
     container_name: vtctld
     depends_on:
-      - etcd
+      etcd:
+        condition: service_healthy
     command: >
       sh -c '
         echo "Waiting for etcd to be healthy...";
@@ -67,15 +68,22 @@ services:
     platform: linux/amd64
     container_name: vtctldclient
     depends_on:
-      - vtctld
+      vtctld:
+        condition: service_healthy
     command: >
       sh -c '
         etcdctl --endpoints=http://etcd:2379 put /vitess/zone1/ ""; \
         /vt/bin/vtctldclient AddCellInfo --server vtctld:15999 --root /vitess/zone1 --server-address etcd:2379 ${VTCTLD_CELL}; \
-        /vt/bin/vtctldclient CreateKeyspace --server vtctld:15999 --durability-policy=semi_sync ${VTTABLET_KEYSPACE}; \
+        /vt/bin/vtctldclient AddCellInfo --server vtctld:15999 --root /vitess/global --server-address etcd:2379 ${VTCTLD_CELL}; \
+        /vt/bin/vtctldclient CreateKeyspace --server vtctld:15999 --durability-policy=semi_sync ${VTTABLET_KEYSPACE_SHARED}; 
       '
-    # TODO: vtctlclient ApplySchema -sql-file schema.sql your_keyspace
-      
+    volumes:
+      - ./mysql/schemas:/vt/vtdataroot
+        # /vt/bin/vtctldclient CreateKeyspace --server vtctld:15999 --durability-policy=semi_sync ${VTTABLET_KEYSPACE_TENANT};
+        # /vt/bin/vtctldclient ApplySchema --server vtctld:15999 --sql-file /vt/vtdataroot/${VTTABLET_KEYSPACE_SHARED}.sql ${VTTABLET_KEYSPACE_SHARED}; \
+        # /vt/bin/vtctldclient ApplySchema --server vtctld:15999 --sql-file /vt/vtdataroot/${VTTABLET_KEYSPACE_TENANT}.sql ${VTTABLET_KEYSPACE_TENANT}; 
+
+#100 schShared shard0 - 0
   vttablet0:
     image: vitess/lite:${VITESS_VERSION}
     container_name: vttablet0
@@ -88,7 +96,7 @@ services:
     command: >
       sh -c '
         until /vt/bin/vtctldclient GetCellInfo --server vtctld:15999 ${VTCTLD_CELL} \
-          && /vt/bin/vtctldclient GetKeyspace --server vtctld:15999 ${VTTABLET_KEYSPACE}; do
+          && /vt/bin/vtctldclient GetKeyspace --server vtctld:15999 ${VTTABLET_KEYSPACE_SHARED}; do
             echo "Waiting for CellInfo and Keyspace..."
             sleep 2
         done
@@ -99,8 +107,8 @@ services:
           --topo_implementation ${VTCTLD_TOPO_IMPL} \
           --topo_global_root ${VTCTLD_TOPO_GLOBAL_ROOT} \
           --topo_global_server_address etcd:2379 \
-          --init_db_name_override=cmms \
-          --init_keyspace ${VTTABLET_KEYSPACE} \
+          --init_db_name_override ${VTTABLET_KEYSPACE_SHARED} \
+          --init_keyspace ${VTTABLET_KEYSPACE_SHARED} \
           --init_shard ${VTTABLET_SHARD} \
           --tablet-path ${VTCTLD_CELL}-100 \
           --tablet_hostname= '' \
@@ -113,7 +121,7 @@ services:
           --db-credentials-file=/vt/creds.json \
           --init_tablet_type replica \
           --service_map ${VTTABLET_SERVICE_MAP} \
-          --pprof-http 
+          --pprof-http
         '
     ports:
       - "15100:15100"
@@ -126,8 +134,61 @@ services:
     volumes:
       - ./creds.json:/vt/creds.json
       - ./vtdataroot/vttablet0-data:/vtdataroot:rw
-    restart: unless-stopped
 
+#101 schTenant shard0 - 0
+  vttablet0_1:
+    image: vitess/lite:${VITESS_VERSION}
+    container_name: vttablet0_1
+    platform: linux/amd64
+    depends_on:
+      shard0:
+        condition: service_healthy
+      vtctldclient:
+        condition: service_started
+    command: >
+      sh -c '
+        until /vt/bin/vtctldclient GetCellInfo --server vtctld:15999 ${VTCTLD_CELL} \
+          && /vt/bin/vtctldclient GetKeyspace --server vtctld:15999 ${VTTABLET_KEYSPACE_SHARED} \
+          && /vt/bin/vtctldclient GetKeyspace --server vtctld:15999 ${VTTABLET_KEYSPACE_TENANT}; do
+            echo "Waiting for CellInfo and Keyspace..."
+            sleep 2
+        done
+        echo "FOUND CellInfo..."
+        exec /vt/bin/vttablet \
+          --config-file-not-found-handling=ignore \
+          --log_dir /vtdataroot/vttablet/logs \
+          --topo_implementation ${VTCTLD_TOPO_IMPL} \
+          --topo_global_root ${VTCTLD_TOPO_GLOBAL_ROOT} \
+          --topo_global_server_address etcd:2379 \
+          --init_db_name_override ${VTTABLET_KEYSPACE_TENANT} \
+          --init_keyspace ${VTTABLET_KEYSPACE_TENANT} \
+          --init_shard ${VTTABLET_SHARD} \
+          --tablet-path ${VTCTLD_CELL}-101 \
+          --tablet_hostname= '' \
+          --port 15101 \
+          --grpc_port 16101 \
+          --db_port 3306 \
+          --db_app_user root \
+          --db_app_password root \
+          --db_host shard0 \
+          --db-credentials-file=/vt/creds.json \
+          --init_tablet_type replica \
+          --service_map ${VTTABLET_SERVICE_MAP} \
+          --pprof-http
+        '
+    ports:
+      - "15101:15101"
+      - "16101:16101"
+    healthcheck:
+      interval: 30s
+      retries: 15
+      test: ["CMD-SHELL", "curl -s --fail --show-error vttablet0_1:15101/debug/health"]
+      timeout: 10s
+    volumes:
+      - ./creds.json:/vt/creds.json
+      - ./vtdataroot/vttablet0_1-data:/vtdataroot:rw
+
+#200 schShared shard1 - 0
   vttablet1:
     image: vitess/lite:${VITESS_VERSION}
     container_name: vttablet1
@@ -140,7 +201,7 @@ services:
     command: >
       sh -c '
         until /vt/bin/vtctldclient GetCellInfo --server vtctld:15999 ${VTCTLD_CELL} \
-          && /vt/bin/vtctldclient GetKeyspace --server vtctld:15999 ${VTTABLET_KEYSPACE}; do
+          && /vt/bin/vtctldclient GetKeyspace --server vtctld:15999 ${VTTABLET_KEYSPACE_SHARED}; do
             echo "Waiting for CellInfo and Keyspace..."
             sleep 2
         done
@@ -151,13 +212,13 @@ services:
           --topo_implementation ${VTCTLD_TOPO_IMPL} \
           --topo_global_root ${VTCTLD_TOPO_GLOBAL_ROOT} \
           --topo_global_server_address etcd:2379 \
-          --init_db_name_override=cmms \
-          --init_keyspace ${VTTABLET_KEYSPACE} \
+          --init_db_name_override ${VTTABLET_KEYSPACE_SHARED} \
+          --init_keyspace ${VTTABLET_KEYSPACE_SHARED} \
           --init_shard ${VTTABLET_SHARD} \
-          --tablet-path ${VTCTLD_CELL}-101 \
+          --tablet-path ${VTCTLD_CELL}-200 \
           --tablet_hostname='' \
-          --port 15101 \
-          --grpc_port 16101 \
+          --port 15200 \
+          --grpc_port 16200 \
           --db_port 3306 \
           --db_app_user root \
           --db_app_password root \
@@ -168,17 +229,175 @@ services:
           --pprof-http 
         '
     ports:
-      - "15101:15101"
-      - "16101:16101"
+      - "15200:15200"
+      - "16200:16200"
     healthcheck:
       interval: 30s
       retries: 15
-      test: ["CMD-SHELL", "curl -s --fail --show-error vttablet1:15101/debug/health"]
+      test: ["CMD-SHELL", "curl -s --fail --show-error vttablet1:15200/debug/health"]
       timeout: 10s
     volumes:
       - ./creds.json:/vt/creds.json
       - ./vtdataroot/vttablet1-data:/vtdataroot:rw
-    # restart: unless-stopped
+
+#201 schTenant shard1 - 0
+  vttablet1_1:
+    image: vitess/lite:${VITESS_VERSION}
+    container_name: vttablet1_1
+    platform: linux/amd64
+    depends_on:
+      shard1:
+        condition: service_healthy
+      vtctldclient:
+        condition: service_started
+    command: >
+      sh -c '
+        until /vt/bin/vtctldclient GetCellInfo --server vtctld:15999 ${VTCTLD_CELL} \
+          && /vt/bin/vtctldclient GetKeyspace --server vtctld:15999 ${VTTABLET_KEYSPACE_SHARED} \
+          && /vt/bin/vtctldclient GetKeyspace --server vtctld:15999 ${VTTABLET_KEYSPACE_TENANT}; do
+            echo "Waiting for CellInfo and Keyspace..."
+            sleep 2
+        done
+        echo "FOUND CellInfo..."
+        exec /vt/bin/vttablet \
+          --config-file-not-found-handling=ignore \
+          --log_dir /vtdataroot/vttablet/logs \
+          --topo_implementation ${VTCTLD_TOPO_IMPL} \
+          --topo_global_root ${VTCTLD_TOPO_GLOBAL_ROOT} \
+          --topo_global_server_address etcd:2379 \
+          --init_db_name_override ${VTTABLET_KEYSPACE_TENANT} \
+          --init_keyspace ${VTTABLET_KEYSPACE_TENANT} \
+          --init_shard ${VTTABLET_SHARD} \
+          --tablet-path ${VTCTLD_CELL}-201 \
+          --tablet_hostname='' \
+          --port 15201 \
+          --grpc_port 16201 \
+          --db_port 3306 \
+          --db_app_user root \
+          --db_app_password root \
+          --db_host shard1 \
+          --db-credentials-file=/vt/creds.json \
+          --init_tablet_type replica \
+          --service_map ${VTTABLET_SERVICE_MAP} \
+          --pprof-http 
+        '
+    ports:
+      - "15201:15201"
+      - "16201:16201"
+    healthcheck:
+      interval: 30s
+      retries: 15
+      test: ["CMD-SHELL", "curl -s --fail --show-error vttablet1_1:15201/debug/health"]
+      timeout: 10s
+    volumes:
+      - ./creds.json:/vt/creds.json
+      - ./vtdataroot/vttablet1_1-data:/vtdataroot:rw
+
+#300 schShared shard2 - 0
+  vttablet2:
+    image: vitess/lite:${VITESS_VERSION}
+    container_name: vttablet2
+    platform: linux/amd64
+    depends_on:
+      shard2:
+        condition: service_healthy
+      vtctldclient:
+        condition: service_started
+    command: >
+      sh -c '
+        until /vt/bin/vtctldclient GetCellInfo --server vtctld:15999 ${VTCTLD_CELL} \
+          && /vt/bin/vtctldclient GetKeyspace --server vtctld:15999 ${VTTABLET_KEYSPACE_SHARED} \
+          && /vt/bin/vtctldclient GetKeyspace --server vtctld:15999 ${VTTABLET_KEYSPACE_TENANT}; do
+            echo "Waiting for CellInfo and Keyspace..."
+            sleep 2
+        done
+        echo "FOUND CellInfo..."
+        exec /vt/bin/vttablet \
+          --config-file-not-found-handling=ignore \
+          --log_dir /vtdataroot/vttablet/logs \
+          --topo_implementation ${VTCTLD_TOPO_IMPL} \
+          --topo_global_root ${VTCTLD_TOPO_GLOBAL_ROOT} \
+          --topo_global_server_address etcd:2379 \
+          --init_db_name_override ${VTTABLET_KEYSPACE_SHARED} \
+          --init_keyspace ${VTTABLET_KEYSPACE_SHARED} \
+          --init_shard ${VTTABLET_SHARD} \
+          --tablet-path ${VTCTLD_CELL}-300 \
+          --tablet_hostname= '' \
+          --port 15300 \
+          --grpc_port 16300 \
+          --db_port 3306 \
+          --db_app_user root \
+          --db_app_password root \
+          --db_host shard2 \
+          --db-credentials-file=/vt/creds.json \
+          --init_tablet_type replica \
+          --service_map ${VTTABLET_SERVICE_MAP} \
+          --pprof-http
+        '
+    ports:
+      - "15300:15300"
+      - "16300:16300"
+    healthcheck:
+      interval: 30s
+      retries: 15
+      test: ["CMD-SHELL", "curl -s --fail --show-error vttablet2:15300/debug/health"]
+      timeout: 10s
+    volumes:
+      - ./creds.json:/vt/creds.json
+      - ./vtdataroot/vttablet2-data:/vtdataroot:rw
+
+#301 schTenant shard2 - 0
+  vttablet2_1:
+    image: vitess/lite:${VITESS_VERSION}
+    container_name: vttablet2_1
+    platform: linux/amd64
+    depends_on:
+      shard2:
+        condition: service_healthy
+      vtctldclient:
+        condition: service_started
+    command: >
+      sh -c '
+        until /vt/bin/vtctldclient GetCellInfo --server vtctld:15999 ${VTCTLD_CELL} \
+          && /vt/bin/vtctldclient GetKeyspace --server vtctld:15999 ${VTTABLET_KEYSPACE_SHARED} \
+          && /vt/bin/vtctldclient GetKeyspace --server vtctld:15999 ${VTTABLET_KEYSPACE_TENANT}; do
+            echo "Waiting for CellInfo and Keyspace..."
+            sleep 2
+        done
+        echo "FOUND CellInfo..."
+        exec /vt/bin/vttablet \
+          --config-file-not-found-handling=ignore \
+          --log_dir /vtdataroot/vttablet/logs \
+          --topo_implementation ${VTCTLD_TOPO_IMPL} \
+          --topo_global_root ${VTCTLD_TOPO_GLOBAL_ROOT} \
+          --topo_global_server_address etcd:2379 \
+          --init_db_name_override ${VTTABLET_KEYSPACE_TENANT} \
+          --init_keyspace ${VTTABLET_KEYSPACE_TENANT} \
+          --init_shard ${VTTABLET_SHARD} \
+          --tablet-path ${VTCTLD_CELL}-301 \
+          --tablet_hostname= '' \
+          --port 15301 \
+          --grpc_port 16301 \
+          --db_port 3306 \
+          --db_app_user root \
+          --db_app_password root \
+          --db_host shard2 \
+          --db-credentials-file=/vt/creds.json \
+          --init_tablet_type replica \
+          --service_map ${VTTABLET_SERVICE_MAP} \
+          --pprof-http
+        '
+    ports:
+      - "15301:15301"
+      - "16301:16301"
+    healthcheck:
+      interval: 30s
+      retries: 15
+      test: ["CMD-SHELL", "curl -s --fail --show-error vttablet2_1:15301/debug/health"]
+      timeout: 10s
+    volumes:
+      - ./creds.json:/vt/creds.json
+      - ./vtdataroot/vttablet2_1-data:/vtdataroot:rw
 
   vtgate:
     image: vitess/lite:${VITESS_VERSION}
@@ -187,10 +406,6 @@ services:
     depends_on:
       vtctld:
         condition: service_healthy
-      vttablet0:
-        condition: service_started
-      vttablet1:
-        condition: service_started
     command: >
       sh -c '
         exec /vt/bin/vtgate \
@@ -198,6 +413,7 @@ services:
           --topo_global_server_address=etcd:2379 \
           --topo_global_root=${VTCTLD_TOPO_GLOBAL_ROOT} \
           --cell=${VTCTLD_CELL} \
+          --track-udfs \
           --cells_to_watch=${VTCTLD_CELL} \
           --tablet_types_to_wait=REPLICA,PRIMARY \
           --tablet_protocol=grpc \
@@ -254,8 +470,26 @@ services:
     volumes:
       - ./mysql/my.cnf:/etc/mysql/conf.d/my.cnf
       - ./mysql/scripts/:/docker-entrypoint-initdb.d/
-
+  
+  shard2:
+    image: mysql:8.0.43
+    command: --default-authentication-plugin=mysql_native_password --bind-address=0.0.0.0 --server-id=200
+    container_name: shard2
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_HOST: '%'
+    healthcheck:
+      retries: 10
+      test: ["CMD", "mysql", "-uroot", "-proot", "-e", "SHOW DATABASES;"]
+      timeout: 10s
+    ports:
+      - "13336:3306"
+    volumes:
+      - ./mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./mysql/scripts/:/docker-entrypoint-initdb.d/
+  
   vtorc:
+    container_name: vtorc
     platform: linux/amd64
     command: >
       sh -c '
@@ -272,7 +506,7 @@ services:
         condition: service_healthy
       vtctldclient:
         condition: service_started
-    image: vitess/lite:v20.0.8
+    image: vitess/lite:${VITESS_VERSION}
     ports:
     - 13000:8080
     volumes:

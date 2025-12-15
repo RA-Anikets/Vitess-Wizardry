@@ -1,0 +1,2499 @@
+{
+  "sharded": true,
+  "tables": {
+    "JGROUPSPING": {
+      "type": "reference"
+    },
+    "QRTZ_BLOB_TRIGGERS": {
+      "type": "reference"
+    },
+    "QRTZ_CALENDARS": {
+      "type": "reference"
+    },
+    "QRTZ_CRON_TRIGGERS": {
+      "type": "reference"
+    },
+    "QRTZ_FIRED_TRIGGERS": {
+      "type": "reference"
+    },
+    "QRTZ_JOB_DETAILS": {
+      "type": "reference"
+    },
+    "QRTZ_LOCKS": {
+      "type": "reference"
+    },
+    "QRTZ_PAUSED_TRIGGER_GRPS": {
+      "type": "reference"
+    },
+    "QRTZ_SCHEDULER_STATE": {
+      "type": "reference"
+    },
+    "QRTZ_SIMPLE_TRIGGERS": {
+      "type": "reference"
+    },
+    "QRTZ_SIMPROP_TRIGGERS": {
+      "type": "reference"
+    },
+    "QRTZ_TRIGGERS": {
+      "type": "reference"
+    },
+    "TokenEntry": {
+      "type": "reference"
+    },
+    "tblAccountAddressType": {
+      "type": "reference"
+    },
+    "tblAccountLogStatus": {
+      "type": "reference"
+    },
+    "tblAccountLogType": {
+      "type": "reference"
+    },
+    "tblActivityLogStatus": {
+      "type": "reference"
+    },
+    "tblActivityLogType": {
+      "type": "reference"
+    },
+    "tblAddressGeocode": {
+      "type": "reference"
+    },
+    "tblAffiliateProgram": {
+      "type": "reference"
+    },
+    "tblApiConsumerType": {
+      "type": "reference"
+    },
+    "tblAppWindow": {
+      "type": "reference"
+    },
+    "tblApplication": {
+      "type": "reference"
+    },
+    "tblAssetPropertyType": {
+      "type": "reference"
+    },
+    "tblAssetStatus": {
+      "type": "reference"
+    },
+    "tblAssetUserType": {
+      "type": "reference"
+    },
+    "tblBarcodeFormatType": {
+      "type": "reference"
+    },
+    "tblBillingTaxes": {
+      "type": "reference"
+    },
+    "tblBillingType": {
+      "type": "reference"
+    },
+    "tblBorgSetting": {
+      "type": "reference"
+    },
+    "tblBusinessClassification": {
+      "type": "reference"
+    },
+    "tblBusinessRoleType": {
+      "type": "reference"
+    },
+    "tblBusinessTypeDef": {
+      "type": "reference"
+    },
+    "tblClientSession": {
+      "type": "reference"
+    },
+    "tblCohort": {
+      "type": "reference"
+    },
+    "tblCountry": {
+      "type": "reference"
+    },
+    "tblCrmMetrics": {
+      "type": "reference"
+    },
+    "tblCrmMetricsSettings": {
+      "type": "reference"
+    },
+    "tblCrmMetricsType": {
+      "type": "reference"
+    },
+    "tblCrmMetricsTypeFormat": {
+      "type": "reference"
+    },
+    "tblCrmMetricsUser": {
+      "type": "reference"
+    },
+    "tblCurrency": {
+      "type": "reference"
+    },
+    "tblDashboard": {
+      "type": "reference"
+    },
+    "tblDashboardDashboardPersona": {
+      "type": "reference"
+    },
+    "tblDashboardFeatureNotice": {
+      "type": "reference"
+    },
+    "tblDashboardPersona": {
+      "type": "reference"
+    },
+    "tblDashboardWidget": {
+      "type": "reference"
+    },
+    "tblDashboardWidgetCategory": {
+      "type": "reference"
+    },
+    "tblDashboardWidgetDashboardPersona": {
+      "type": "reference"
+    },
+    "tblDashboardWidgetParameter": {
+      "type": "reference"
+    },
+    "tblDashboardWidgetQuery": {
+      "type": "reference"
+    },
+    "tblDdColumn": {
+      "type": "reference"
+    },
+    "tblDdColumnType": {
+      "type": "reference"
+    },
+    "tblDdTable": {
+      "type": "reference"
+    },
+    "tblDdTableType": {
+      "type": "reference"
+    },
+    "tblDistributionBillingPlan": {
+      "type": "reference"
+    },
+    "tblEmailAddress": {
+      "type": "reference"
+    },
+    "tblEmailAddressSmtpEvent": {
+      "type": "reference"
+    },
+    "tblEmailAddressStatus": {
+      "type": "reference"
+    },
+    "tblEpicFeatureNotice": {
+      "type": "reference"
+    },
+    "tblEpicFeatureNoticePricingTier": {
+      "type": "reference"
+    },
+    "tblExternalJobStatus": {
+      "type": "reference"
+    },
+    "tblFeature": {
+      "type": "reference"
+    },
+    "tblFeatureCategory": {
+      "type": "reference"
+    },
+    "tblFeatureNoticeFilter": {
+      "type": "reference"
+    },
+    "tblFeatureProperty": {
+      "type": "reference"
+    },
+    "tblFeatureValueOverageControlType": {
+      "type": "reference"
+    },
+    "tblFeatureValuePeriodType": {
+      "type": "reference"
+    },
+    "tblFeatureValueType": {
+      "type": "reference"
+    },
+    "tblGHGCalcCarbonMarket": {
+      "type": "reference"
+    },
+    "tblGHGCalcFuel": {
+      "type": "reference"
+    },
+    "tblGHGCalcGWP": {
+      "type": "reference"
+    },
+    "tblGHGCalcLocation": {
+      "type": "reference"
+    },
+    "tblGHGCalcResource": {
+      "type": "reference"
+    },
+    "tblGHGCalcVehicle": {
+      "type": "reference"
+    },
+    "tblIdGen": {
+      "type": "reference"
+    },
+    "tblIntegrationActionAdvancedEndpoint": {
+      "type": "reference"
+    },
+    "tblIntegrationActionType": {
+      "type": "reference"
+    },
+    "tblIntegrationEndpointFormat": {
+      "type": "reference"
+    },
+    "tblIntegrationParameterType": {
+      "type": "reference"
+    },
+    "tblIntegrationProtocol": {
+      "type": "reference"
+    },
+    "tblIntegrationSystem": {
+      "type": "reference"
+    },
+    "tblIntegrationTemplate": {
+      "type": "reference"
+    },
+    "tblIsoWeekCalendar": {
+      "type": "reference"
+    },
+    "tblLanguage": {
+      "type": "reference"
+    },
+    "tblLeadState": {
+      "type": "reference"
+    },
+    "tblLocalization": {
+      "type": "reference"
+    },
+    "tblLocalizationArchive": {
+      "type": "reference"
+    },
+    "tblLocalizationType": {
+      "type": "reference"
+    },
+    "tblLogCostType": {
+      "type": "reference"
+    },
+    "tblLogType": {
+      "type": "reference"
+    },
+    "tblMarketingProgram": {
+      "type": "reference"
+    },
+    "tblMessageFolder": {
+      "type": "reference"
+    },
+    "tblMilestone": {
+      "type": "reference"
+    },
+    "tblMilestonesResetThreshold": {
+      "type": "reference"
+    },
+    "tblPTTxnThroughput": {
+      "type": "reference"
+    },
+    "tblPassword": {
+      "type": "reference"
+    },
+    "tblPasswordStorageVersion": {
+      "type": "reference"
+    },
+    "tblPaymentMethod": {
+      "type": "reference"
+    },
+    "tblPermission": {
+      "type": "reference"
+    },
+    "tblPlanFeature": {
+      "type": "reference"
+    },
+    "tblPlanFeatureCategory": {
+      "type": "reference"
+    },
+    "tblPlanFeatureProductTier": {
+      "type": "reference"
+    },
+    "tblPlatformEventType": {
+      "type": "reference"
+    },
+    "tblPricingTier": {
+      "type": "reference"
+    },
+    "tblPricingTierFeature": {
+      "type": "reference"
+    },
+    "tblProduct": {
+      "type": "reference"
+    },
+    "tblProductDiscountControl": {
+      "type": "reference"
+    },
+    "tblProductOffering": {
+      "type": "reference"
+    },
+    "tblProductOfferingFeature": {
+      "type": "reference"
+    },
+    "tblProductTier": {
+      "type": "reference"
+    },
+    "tblProductUnit": {
+      "type": "reference"
+    },
+    "tblPromotionalOffer": {
+      "type": "reference"
+    },
+    "tblPromotionalOfferDetail": {
+      "type": "reference"
+    },
+    "tblPromotionalOfferPricingTier": {
+      "type": "reference"
+    },
+    "tblQuoteStatus": {
+      "type": "reference"
+    },
+    "tblRateLimiterType": {
+      "type": "reference"
+    },
+    "tblRecurringType": {
+      "type": "reference"
+    },
+    "tblRemoteEntityIdMapping": {
+      "type": "reference"
+    },
+    "tblReportCategory": {
+      "type": "reference"
+    },
+    "tblReportHistory": {
+      "type": "reference"
+    },
+    "tblReportTemplate": {
+      "type": "reference"
+    },
+    "tblReportType": {
+      "type": "reference"
+    },
+    "tblResource": {
+      "type": "reference"
+    },
+    "tblResourceConsumer": {
+      "type": "reference"
+    },
+    "tblResourceConsumerType": {
+      "type": "reference"
+    },
+    "tblResourceNamespace": {
+      "type": "reference"
+    },
+    "tblResourceService": {
+      "type": "reference"
+    },
+    "tblResourceType": {
+      "type": "reference"
+    },
+    "tblRunCommandHistory": {
+      "type": "reference"
+    },
+    "tblSSOProvider": {
+      "type": "reference"
+    },
+    "tblSalespersonType": {
+      "type": "reference"
+    },
+    "tblScheduledJob": {
+      "type": "reference"
+    },
+    "tblScheduledJobMonitor": {
+      "type": "reference"
+    },
+    "tblSkin": {
+      "type": "reference"
+    },
+    "tblSmtpEvent": {
+      "type": "reference"
+    },
+    "tblSmtpEventType": {
+      "type": "reference"
+    },
+    "tblSmtpProvider": {
+      "type": "reference"
+    },
+    "tblStockTxType": {
+      "type": "reference"
+    },
+    "tblSubscriptionStatus": {
+      "type": "reference"
+    },
+    "tblTenant": {
+      "type": "reference"
+    },
+    "tblTenantAutomation": {
+      "type": "reference"
+    },
+    "tblTenantDeleteTableNames": {
+      "type": "reference"
+    },
+    "tblTenantNotification": {
+      "type": "reference"
+    },
+    "tblTenantNotificationPricingTier": {
+      "type": "reference"
+    },
+    "tblTenantOrderType": {
+      "type": "reference"
+    },
+    "tblTenantPurgeRecordCount": {
+      "type": "reference"
+    },
+    "tblTenantRelationship": {
+      "type": "reference"
+    },
+    "tblTenantRelationshipType": {
+      "type": "reference"
+    },
+    "tblTenantStatus": {
+      "type": "reference"
+    },
+    "tblTenantType": {
+      "type": "reference"
+    },
+    "tblTheThrowable": {
+      "type": "reference"
+    },
+    "tblTheThrowableReported": {
+      "type": "reference"
+    },
+    "tblUsageLog": {
+      "type": "reference"
+    },
+    "tblV4Tenant": {
+      "type": "reference"
+    },
+    "tblWarrantyType": {
+      "type": "reference"
+    },
+    "tblWarrantyUsageTermType": {
+      "type": "reference"
+    },
+    "tblWork": {
+      "type": "reference"
+    },
+    "tblWorkflowActivityType": {
+      "type": "reference"
+    },
+    "tblWorkflowActivityTypeGroup": {
+      "type": "reference"
+    },
+    "tblWorkflowTriggerType": {
+      "type": "reference"
+    },
+    "tblWorkflowTriggerTypeGroup": {
+      "type": "reference"
+    },
+    "tblYeMo": {
+      "type": "reference"
+    },
+    "tblAccount": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblAccountAddress": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblAccountLog": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblAccountLogDiscount": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblAccountLogOrder": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblAccountNotes": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblActivityLog": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblApiConsumer": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblApiConsumerUsage": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblApiUsage": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblAsset": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblAssetActivityLog": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblAssetBusiness": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblAssetCategory": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblAssetCategoryBarcodeFormatType": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblAssetCategoryResolved": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblAssetClassification": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblAssetClassificationLog": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblAssetConsumingReference": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblAssetDepletionTracking": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblAssetEvent": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblAssetEventType": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblAssetEventTypeAsset": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblAssetOfflineTracker": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblAssetProperty": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblAssetPropertyDomainElement": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblAssetPropertyValue": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblAssetPurchaseTracking": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblAssetResolved": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblAssetSelection": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblAssetUser": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblAuditLog": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblAuditLogArchive": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblAuthorization": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblBOMGroup": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblBOMGroupPart": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblBillingTerm": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblBranding": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblBusiness": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblBusinessContact": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblBusinessGroup": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblBusinessRole": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblCalendarEvent": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblCategorySetting": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblCertification": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblChargeDepartment": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblCounter": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblCreditCard": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblCustomField": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblCustomFieldValue": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblCustomQuery": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblCycleCount": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblDashboardWidgetPosition": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblDashboardWidgetPositionFilter": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblDashboardWidgetPositionParameter": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblDatabaseExport": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblDdCustomTableRow": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblDistribution": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblDistributionPaymentMethod": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblDistributionPricingTier": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblDistributionRecurringType": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblDistributionUnitPricingRule": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblEmailAttachment": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblEmailMessage": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblEvent": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblFile": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblFileContents": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblFirewall": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblFirewallLog": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblFirewallRule": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblGHGCalcAsset": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblGroupPermissions": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblGuestActions": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblGuestMrFormField": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblIntegration": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblIntegrationAction": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblIntegrationActionLog": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblIntegrationConfigurableProperty": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblIntegrationParameter": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblInventoryTransaction": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblKpiResult": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblLastMeterReading": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblLineItem": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblLocalizationPermission": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblLogAlert": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblLogMonitoring": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblLogSavedSearch": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblLogSavedSearchUser": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblLogUser": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblLookupTableSync": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblMASourceCounter": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblMASourceListing": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblMASourceSeller": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblMASourceWarranty": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblMaintenanceType": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblMessage": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblMeterReading": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblMeterReadingUnit": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblMiscCost": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblMiscCostType": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblMove": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblMoveAsset": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblMoveBack": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblMoveBackAsset": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblMoveSiteManager": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblMoveStatus": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblNetworkSettings": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblOrder": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblOrderRefund": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblOrderSystemProperty": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblPartner": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblPartsSelection": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblPaymentProfile": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblPerRecordValue": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblPriority": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblProductTimeTracking": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblProject": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblProjectUser": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblPurchaseOrder": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblPurchaseOrderAdditionalCost": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblPurchaseOrderAdditionalCostType": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblPurchaseOrderLineItem": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblPurchaseOrderLineItemRfq": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblPurchaseOrderLog": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblPurchaseOrderStatus": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblPurchaseOrderStatusTransition": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblPurchaseOrderStatusTransitionPermission": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblPurchaseOrderUser": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblQuote": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblRCAAction": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblRCACause": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblRCAGrouping": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblRCAGroupingAction": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblRCAGroupingCause": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblRCAProblem": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblRFQ": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblRFQAsset": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblRFQLineItem": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblRFQQueue": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblRFQStatus": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblRFQStatusTransition": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblReasonToSetAssetOffline": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblReasonToSetAssetOnline": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblReceipt": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblReceiptLineItem": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblReceiptStatus": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblReceiptStatusTransition": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblReconciliationControl": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblRegionUser": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblRegionUserGroup": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblRememberMeCookie": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblReportPreset": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblReportPresetParameter": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblReportsToResolved": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblResetPassword": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblRole": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblRolePermission": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblSSOImplementation": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblSalesAccountTracking": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblScheduleTrigger": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblScheduledMaintenance": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblScheduledMaintenanceActivityLog": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblScheduledMaintenanceAsset": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblScheduledMaintenanceBusiness": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblScheduledMaintenanceNesting": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblScheduledMaintenancePart": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblScheduledMaintenanceUser": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblScheduledReport": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblScheduledReportUser": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblScheduledTask": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblScheduledTaskFile": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblServerSetting": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblShippingType": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblSiteAvailability": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblSiteSetting": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblSiteStock": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblSiteUser": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblSiteUserGroup": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblStock": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblStockAdjustmentItem": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblStockCycleCount": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblStockHistory": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblStockPurchaseItem": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblSubscriptionPlan": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblSystemMessageUser": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblSystemSetting": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblTask": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblTaskFile": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblTaskGroup": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblTaskGroupAssetCategory": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblTaskResultConfiguration": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblTaskResultValue": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblTemplate": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblTemplateCategory": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblTenantDashboard": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblTenantDeleteStatus": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblTenantDistributionCampaign": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblTenantFeature": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblTenantLineItem": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblTenantOrder": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblTenantReport": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblTenantSystemProperty": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblTenantSystemPropertyLog": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblTenantTransaction": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblTenantWidget": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblTestTable": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblTestingBlack": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblTestingRedC": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblTestingWhiteC": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblTestingYellow": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblUicProfile": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblUser": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblUserAnalyticsPermission": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblUserApiConsumerPermission": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblUserCertification": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblUserClockInOut": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblUserEpicFeatureNotice": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblUserGroupDashboardPersona": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblUserMASourceStart": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblUserMilestone": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblUserPermission": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblUserPurchaseOrderStatusTransitionPermission": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblUserReportsToUser": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblUserRole": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblUserSetting": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblUserSystemProperty": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblUserSystemPropertyLog": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblV5DataToV5EventsConversionStatus": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblV6ApiApplicationUserMapping": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblV6RolePermissionLookup": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblV6TenantUserInactivityTimeout": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblV6TenantUserMgmtMigration": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblV6UserDeletionTracking": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblWarranty": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblWorkOrder": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblWorkOrderAsset": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblWorkOrderBusiness": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblWorkOrderLog": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblWorkOrderPart": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblWorkOrderStatus": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblWorkOrderStatusTransition": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblWorkOrderTask": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblWorkOrderTaskAdditionalProperties": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblWorkOrderTaskFile": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblWorkOrderTaskUser": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblWorkOrderUser": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblWorkflow": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblWorkflowActivity": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblWorkflowComment": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    },
+    "tblWorkflowExecution": {
+      "column_vindexes": [
+        {
+          "column": "intTenantID",
+          "name": "hash"
+        }
+      ]
+    }
+  },
+  "vindexes": {
+    "hash": {
+      "type": "hash"
+    }
+  }
+}

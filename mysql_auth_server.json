@@ -1,4 +1,5 @@
 {
+    "root":[{"Password": "password1"}],
     "user1":[{"Password": "password1"}],
     "usrAdmin":[{"Password": "uDrHNVvEhtBf"}],
     "usrTenant":[{"Password": "MlzHVOGCoXlG"}]

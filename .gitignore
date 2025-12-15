@@ -1,3 +1,4 @@
 etcd-data/
 vtctld-backups/
 vtdataroot/
+vitess/

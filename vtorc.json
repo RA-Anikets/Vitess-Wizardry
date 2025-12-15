@@ -1,8 +1,8 @@
 {
-  "MySQLTopologyUser": "orc_client_user",
-  "MySQLTopologyPassword": "orc_client_user_password",
+  "MySQLTopologyUser": "vt_dba",
+  "MySQLTopologyPassword": "vitesspass!",
   "MySQLReplicaUser": "vt_repl",
-  "MySQLReplicaPassword": "",
+  "MySQLReplicaPassword": "vitesspass!",
   "RecoveryPeriodBlockSeconds": 1,
   "InstancePollSeconds": 1
 }

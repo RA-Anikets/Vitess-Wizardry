@@ -33,3 +33,6 @@ SET GLOBAL rpl_semi_sync_slave_enabled = ON;
 SHOW VARIABLES LIKE 'rpl_semi_sync%';
 SHOW PLUGINS;
 
+STOP SLAVE;
+RESET MASTER;
+RESET SLAVE ALL;
