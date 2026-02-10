@@ -24,6 +24,8 @@ spec:
   cells: # cells are same as availability zones in the cloud provider
   - name: zone1
     gateway:
+      extraFlags:
+        enable-views: "true"
       authentication:
         static:
           secret:
@@ -85,7 +87,7 @@ spec:
           instance-poll-time: 1s
       partitionings:
       - equal:
-          parts: 1
+          parts: 2
           shardTemplate:
             databaseInitScriptSecret:
               name: cmms-config
@@ -98,6 +100,7 @@ spec:
                 extraFlags:
                   enforce_strict_trans_tables: "false"
                   init_db_name_override: schShared
+                  queryserver-enable-views: "true"
                   queryserver-config-transaction-timeout: "72000s"
                   queryserver-config-query-timeout: "30000s"
                   db_charset: utf8mb4
