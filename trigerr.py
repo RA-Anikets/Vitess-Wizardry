@@ -51,4 +51,4 @@ def generate_vitess_triggers(input_file, output_file):
     print(f"Successfully generated {len(matches)} triggers in {output_file}")
 
 if __name__ == "__main__":
-    generate_vitess_triggers('schSharedLookup_fk.sql', 'schSharedLookup_triggers.sql')
+    generate_vitess_triggers('schShared_fk.sql', 'schShared_triggers.sql')

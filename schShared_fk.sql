@@ -1,7 +1,3 @@
-use `schShared:80-`;
-SET FOREIGN_KEY_CHECKS=0;
-
-
 ALTER TABLE `tblAccountLog` ADD CONSTRAINT `fkTblAccountLogToTblUserViaIntUserID` FOREIGN KEY (`intUserID`) REFERENCES `tblUser` (`id`) ON UPDATE NO ACTION ON DELETE RESTRICT;
 
 ALTER TABLE `tblAccountLogDiscount` ADD CONSTRAINT `fkTblAccountLogDiscountToTblAccountLogViaIntAccountLogID` FOREIGN KEY (`intAccountLogID`) REFERENCES `tblAccountLog` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE;
