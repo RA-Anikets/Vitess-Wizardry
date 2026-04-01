@@ -65,3 +65,7 @@ vtctldclient MoveTables --server localhost:15999 --workflow schShared2schSharedL
 vtctldclient --server localhost:15999 ApplySchema --sql-file migration/manual_drop.sql schShared
 
 vtctldclient --server localhost:15999 ApplySchema --sql-file schSharedLookup
+
+
+
+kubectl expose deployment cmms-vitess-cluster --type=ClusterIP --name=vtadmin-cluster-ip  

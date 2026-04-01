@@ -209,3 +209,17 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+"""
+Run the Script
+    Dry Run (Verify logic without executing):
+        python vitess_fk_trigger_migrator.py \
+            --sql-file constraints.sql \
+            --target-alias zone1-0000000100 \
+            --dry-run
+    Live Execution:    
+        python vitess_fk_trigger_migrator.py \
+            --sql-file constraints.sql \
+            --target-alias zone1-0000000100 \
+            --vtctld-server localhost:15999
+"""

@@ -7,10 +7,9 @@ spec:
   backup:
     engine: xtrabackup
     locations:
-      - volume:
-          hostPath:
-            path: /tmp
-            type: Directory
+      - s3:
+          bucket: cmms-vitess-backups
+          region: us-east-1
   images:
     vtctld: vitess/lite:v22.0.1
     vtadmin: vitess/vtadmin:v22.0.1
@@ -38,6 +37,20 @@ spec:
           memory: 256Mi
         limits:
           memory: 256Mi
+      tolerations:
+        - key: "spot"
+          operator: "Equal"
+          value: "true"
+          effect: "NoSchedule"
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: workload-type
+                    operator: In
+                    values:
+                      - vitess
   vitessDashboard:
     cells:
     - zone1
@@ -50,6 +63,20 @@ spec:
       requests:
         cpu: 100m
         memory: 128Mi
+    tolerations:
+      - key: "spot"
+        operator: "Equal"
+        value: "true"
+        effect: "NoSchedule"
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: workload-type
+                  operator: In
+                  values:
+                    - vitess
   vtadmin:
     rbac:
       name: cmms-config
@@ -72,6 +99,20 @@ spec:
       requests:
         cpu: 100m
         memory: 128Mi
+    tolerations:
+      - key: "spot"
+        operator: "Equal"
+        value: "true"
+        effect: "NoSchedule"
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: workload-type
+                  operator: In
+                  values:
+                    - vitess
   keyspaces:
     - name: schShared
       durabilityPolicy: none
@@ -87,7 +128,7 @@ spec:
           instance-poll-time: 1s
       partitionings:
       - equal:
-          parts: 2
+          parts: 1
           shardTemplate:
             databaseInitScriptSecret:
               name: cmms-config
@@ -118,10 +159,25 @@ spec:
                     cpu: 100m
                     memory: 512Mi
               dataVolumeClaimTemplate:
+                storageClassName: vitess-gp3
                 accessModes: ["ReadWriteOnce"]
                 resources:
                   requests:
                     storage: 10Gi
+              tolerations:
+                - key: "spot"
+                  operator: "Equal"
+                  value: "true"
+                  effect: "NoSchedule"
+              affinity:
+                nodeAffinity:
+                  requiredDuringSchedulingIgnoredDuringExecution:
+                    nodeSelectorTerms:
+                      - matchExpressions:
+                          - key: workload-type
+                            operator: In
+                            values:
+                              - vitess
     - name: schSharedLookup
       durabilityPolicy: none
       turndownPolicy: Immediate
@@ -166,10 +222,25 @@ spec:
                     cpu: 100m
                     memory: 512Mi
               dataVolumeClaimTemplate:
+                storageClassName: vitess-gp3
                 accessModes: ["ReadWriteOnce"]
                 resources:
                   requests:
                     storage: 10Gi
+              tolerations:
+                - key: "spot"
+                  operator: "Equal"
+                  value: "true"
+                  effect: "NoSchedule"
+              affinity:
+                nodeAffinity:
+                  requiredDuringSchedulingIgnoredDuringExecution:
+                    nodeSelectorTerms:
+                      - matchExpressions:
+                          - key: workload-type
+                            operator: In
+                            values:
+                              - vitess
   updateStrategy:
     type: Immediate
 ---
