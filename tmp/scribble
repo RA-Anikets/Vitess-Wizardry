@@ -68,4 +68,46 @@ vtctldclient --server localhost:15999 ApplySchema --sql-file schSharedLookup
 
 
 
-kubectl expose deployment cmms-vitess-cluster --type=ClusterIP --name=vtadmin-cluster-ip  
+kubectl expose deployment cmms --type=ClusterIP --name=vtadmin-cluster-ip  
+kubectl -n cmms expose deployment $( kubectl -n cmms get deployment --selector="planetscale.com/component=vtadmin" -o=jsonpath="{.items..metadata.name}" ) --type=LoadBalancer --name=test-vtadmin --port 15000 --target-port 15000
+
+kubectl -n cmms expose pod $(  kubectl -n cmms get pods -o name | grep -w vtadmin) --type=NodePort --name=vtadmin-nodeport --port=15000
+
+kubectl -n cmms expose pod cmms-vitess-cluster-zone1-vtadmin-fb326ce7-7d668478db-fp2fd --type=NodePort --name=vtadmin-nodeport --port=15000
+service/vtadmin-nodeport exposed
+
+
+aws eks create-access-entry \
+  --cluster-name usea1-eks-devserver-kyjr4 \
+  --principal-arn arn:aws:iam::236809841816:role/github-actions-infra-read-write \
+  --type STANDARD \
+  --kubernetes-groups terraform-admin
+
+
+aws eks describe-access-entry \
+  --cluster-name usea1-eks-devserver-kyjr4 \
+  --principal-arn arn:aws:iam::236809841816:role/github-actions-infra-read-write
+
+kubectl create clusterrolebinding terraform-admin-binding \
+  --clusterrole=cluster-admin \
+  --group=terraform-admin
+
+aws ec2 describe-route-tables \
+  --filters \
+    Name=vpc-id,Values=vpc-057a98c9de05e9f47 \
+    Name=route.destination-cidr-block,Values=0.0.0.0/0 \
+  --query "RouteTables[?Routes[?GatewayId!=null && GatewayId!='local']].Associations[].SubnetId" \
+  --output text
+
+
+
+
+
+
+
+
+
+
+  kubectl -n cmms expose deployment $( kubectl -n cmms get deployment --selector="planetscale.com/component=vtadmin" -o=jsonpath="{.items..metadata.name}" ) --type=LoadBalancer --name=test-vtadmin --port 15000 --target-port 15000
+
+  kubectl -n cmms annotate svc test-vtadmin service.beta.kubernetes.io/aws-load-balancer-internal="true" service.beta.kubernetes.io/aws-load-balancer-type="nlb"

@@ -25,6 +25,29 @@ spec:
     gateway:
       extraFlags:
         enable-views: "true"
+        # Connection pooling and limits
+        mysql-server-pool-conn-read-buffers: "true"
+        grpc_max_message_size: "67108864"  # 64MB max gRPC message
+        # Connection handling for 100 connections
+        mysql_tcp_version: "tcp"
+        mysql_server_read_timeout: "28800s"
+        mysql_server_write_timeout: "28800s"
+        mysql_default_workload: "OLTP"
+        # Query optimization
+        normalize_queries: "true"
+        enable_system_settings: "true"
+        # Tablet connection settings
+        grpc_initial_conn_window_size: "131072"  # 128KB
+        healthcheck_timeout: "60s"
+        srv_topo_timeout: "30s"
+        gateway_initial_tablet_timeout: "30s"
+        # Discovery and caching
+        discovery_low_replication_lag: "30s"
+        discovery_high_replication_lag_minimum_serving: "120s"
+        # Buffer settings for connection handling
+        buffer_size: "100"
+        buffer_window: "10s"
+        buffer_min_time_between_failovers: "20s"
       authentication:
         static:
           secret:
@@ -33,15 +56,10 @@ spec:
       replicas: 1
       resources:
         requests:
-          cpu: 100m
-          memory: 256Mi
+          cpu: 250m
+          memory: 512Mi
         limits:
-          memory: 256Mi
-      tolerations:
-        - key: "spot"
-          operator: "Equal"
-          value: "true"
-          effect: "NoSchedule"
+          memory: 1Gi
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -50,7 +68,7 @@ spec:
                   - key: workload-type
                     operator: In
                     values:
-                      - vitess
+                      - vitess-control-plane
   vitessDashboard:
     cells:
     - zone1
@@ -253,8 +271,8 @@ type: Opaque
 stringData:
   users.json: |
     {
-      "root":[{"Password": "password1"}],
-      "user1":[{"Password": "password1"}],
+      "root":[{"Password": "Pass@Pune211008"}],
+      "user1":[{"Password": "Pass@Pune211008"}],
       "usrAdmin":[{"Password": "uDrHNVvEhtBf"}],
       "usrTenant":[{"Password": "MlzHVOGCoXlG"}]
     }
